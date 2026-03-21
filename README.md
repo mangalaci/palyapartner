@@ -1,113 +1,113 @@
 # PályaPartner
 
-Találd meg a tökéletes sportpartnered! Reszponzív webalkalmazás, amely összeköti azokat, akik sportolni szeretnének, de nincs partnerük hozzá.
+Find your perfect sports partner! A responsive web app that connects people who want to play sports but don't have a partner.
 
-## Funkciók
+## Features
 
-- **Játékos böngészés** — Keress közeli sportpartnereket sport, szint és korosztály szerint
-- **Játékkérések** — Adj fel játékkérést konkrét sportra, időpontra és helyszínre, vagy jelentkezz másokéra
-- **In-app üzenetküldés** — Chatelj közvetlenül az alkalmazáson belül
-- **Profil kezelés** — Becenév, sportok, szintek, korosztály, bemutatkozás
-- **"Browse first" modell** — Regisztráció nélkül is böngészhetsz, de üzenetküldéshez be kell jelentkezned
+- **Player browsing** — Search nearby sports partners by sport, skill level, and age group
+- **Game requests** — Post a game request for a specific sport, time, and location, or join others'
+- **In-app messaging** — Chat directly within the app
+- **Profile management** — Nickname, sports, skill levels, age group, bio
+- **"Browse first" model** — Browse without registration, sign up to message or post
 
-## Tech stack
+## Tech Stack
 
 - **Frontend:** Next.js 14 (App Router), React 18, Tailwind CSS
 - **Backend:** Next.js API Routes
-- **Adatbázis:** PostgreSQL + Prisma ORM
-- **Autentikáció:** NextAuth.js (email/jelszó)
-- **Nyelv:** TypeScript
-- **Deploy:** Railway (Docker)
+- **Database:** PostgreSQL + Prisma ORM
+- **Authentication:** NextAuth.js (email/password)
+- **Language:** TypeScript
+- **Deployment:** Railway (Docker)
 
-## Telepítés (lokális fejlesztés)
+## Getting Started
 
-### Előfeltételek
+### Prerequisites
 
 - Node.js 18+
-- PostgreSQL adatbázis
+- PostgreSQL database
 
-### Lépések
+### Installation
 
 ```bash
-# 1. Függőségek telepítése
+# 1. Install dependencies
 npm install
 
-# 2. Környezeti változók beállítása
+# 2. Set up environment variables
 cp .env.example .env
-# Szerkeszd a .env fájlt a saját adatbázis URL-eddel
+# Edit .env with your database URL
 
-# 3. Adatbázis migráció
+# 3. Run database migrations
 npx prisma migrate dev --name init
 
-# 4. (Opcionális) Minta adatok betöltése
+# 4. (Optional) Seed sample data
 npx tsx prisma/seed.ts
 
-# 5. Fejlesztői szerver indítása
+# 5. Start the development server
 npm run dev
 ```
 
-Az app elérhető lesz: http://localhost:3000
+The app will be available at: http://localhost:3000
 
-### Minta felhasználók (seed után)
+### Sample Users (after seeding)
 
-| Becenév | Email | Jelszó | Város |
-|---------|-------|--------|-------|
+| Nickname | Email | Password | City |
+|----------|-------|----------|------|
 | KisDániel | kis.daniel@example.com | jelszo123 | Győr |
 | TóthMária | toth.maria@example.com | jelszo123 | Budapest |
 | SzabóGábor | szabo.gabor@example.com | jelszo123 | Pécs |
 | NagyAnna | nagy.anna@example.com | jelszo123 | Debrecen |
 | KovácsPéter | kovacs.peter@example.com | jelszo123 | Budapest |
 
-## Deploy (Railway)
+## Deployment (Railway)
 
-1. Hozz létre egy új projektet a [Railway](https://railway.com)-en
-2. Add hozzá a PostgreSQL addon-t
-3. Állítsd be a környezeti változókat:
-   - `DATABASE_URL` — automatikusan beállítódik a PostgreSQL addon-nal
-   - `NEXTAUTH_SECRET` — generálj egyet: `openssl rand -base64 32`
-   - `NEXTAUTH_URL` — a Railway által adott URL (pl. `https://palyapartner.up.railway.app`)
-4. Kösd össze a GitHub repóval — a deploy automatikus
+1. Create a new project on [Railway](https://railway.com)
+2. Add the PostgreSQL addon
+3. Set environment variables:
+   - `DATABASE_URL` — automatically set by the PostgreSQL addon
+   - `NEXTAUTH_SECRET` — generate one: `openssl rand -base64 32`
+   - `NEXTAUTH_URL` — the URL provided by Railway (e.g. `https://palyapartner.up.railway.app`)
+4. Connect your GitHub repo — deployment is automatic
 
-## Képernyők
+## Screens
 
-| Képernyő | URL | Leírás |
-|----------|-----|--------|
-| Főoldal | `/` | Hero szekció + keresés + játékos kártyák |
-| Játékosok | `/jatekosok` | Szűrhető játékos lista |
-| Játékos profil | `/jatekosok/[id]` | Egyéni profil részletek |
-| Játékkérések | `/jatekeresek` | Nyitott játékkérések + új feladása |
-| Regisztráció | `/regisztracio` | Fiók létrehozása |
-| Bejelentkezés | `/bejelentkezes` | Bejelentkezés |
-| Profilom | `/profil` | Saját profil szerkesztése |
-| Üzenetek | `/uzenetek` | Beszélgetések listája |
-| Chat | `/uzenetek/[id]` | Csevegés egy játékossal |
+| Screen | URL | Description |
+|--------|-----|-------------|
+| Home | `/` | Hero section + search + player cards |
+| Players | `/jatekosok` | Filterable player list |
+| Player Profile | `/jatekosok/[id]` | Individual profile details |
+| Game Requests | `/jatekeresek` | Open game requests + create new |
+| Register | `/regisztracio` | Account creation |
+| Login | `/bejelentkezes` | Sign in |
+| My Profile | `/profil` | Edit own profile |
+| Messages | `/uzenetek` | Conversations list |
+| Chat | `/uzenetek/[id]` | Chat with a player |
 
-## Projektstruktúra
+## Project Structure
 
 ```
 src/
 ├── app/
-│   ├── api/                  # Backend API végpontok
-│   │   ├── auth/             # NextAuth konfiguráció
-│   │   ├── game-requests/    # Játékkérések CRUD
-│   │   ├── messages/         # Üzenetek CRUD
-│   │   ├── register/         # Regisztráció
-│   │   └── users/            # Felhasználók keresése, profil
-│   ├── bejelentkezes/        # Bejelentkezés oldal
-│   ├── jatekeresek/          # Játékkérések oldal
-│   ├── jatekosok/            # Játékosok böngészése
-│   ├── profil/               # Profil szerkesztés
-│   ├── regisztracio/         # Regisztráció oldal
-│   ├── uzenetek/             # Üzenetek
-│   ├── layout.tsx            # Globális layout
-│   └── page.tsx              # Főoldal
-├── components/               # Újrahasználható komponensek
+│   ├── api/                  # Backend API routes
+│   │   ├── auth/             # NextAuth config
+│   │   ├── game-requests/    # Game requests CRUD
+│   │   ├── messages/         # Messages CRUD
+│   │   ├── register/         # Registration
+│   │   └── users/            # User search, profile
+│   ├── bejelentkezes/        # Login page
+│   ├── jatekeresek/          # Game requests page
+│   ├── jatekosok/            # Player browsing
+│   ├── profil/               # Profile editing
+│   ├── regisztracio/         # Registration page
+│   ├── uzenetek/             # Messages
+│   ├── layout.tsx            # Global layout
+│   └── page.tsx              # Home page
+├── components/               # Reusable components
 │   ├── AuthProvider.tsx
 │   ├── Navbar.tsx
 │   ├── PlayerCard.tsx
 │   └── SearchSection.tsx
-└── lib/                      # Segédkód
-    ├── auth.ts               # NextAuth konfiguráció
-    ├── prisma.ts             # Prisma kliens
-    └── types.ts              # Típusdefiníciók, konstansok
+└── lib/                      # Utilities
+    ├── auth.ts               # NextAuth config
+    ├── prisma.ts             # Prisma client
+    └── types.ts              # Type definitions, constants
 ```
