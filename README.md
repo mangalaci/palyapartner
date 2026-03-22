@@ -58,15 +58,32 @@ The app will be available at: http://localhost:3000
 | NagyAnna | nagy.anna@example.com | jelszo123 | Debrecen |
 | KovácsPéter | kovacs.peter@example.com | jelszo123 | Budapest |
 
-## Deployment (Railway)
+## Deployment (Vercel + Neon)
 
-1. Create a new project on [Railway](https://railway.com)
-2. Add the PostgreSQL addon
-3. Set environment variables:
-   - `DATABASE_URL` — automatically set by the PostgreSQL addon
+### Database (Neon)
+
+1. Create an account on [Neon](https://neon.tech)
+2. Create a new project (region: EU Frankfurt)
+3. Copy the connection string
+
+### Hosting (Vercel)
+
+1. Create an account on [Vercel](https://vercel.com) (sign in with GitHub)
+2. Import the `palyapartner` repository
+3. Add environment variables before deploying:
+   - `DATABASE_URL` — the Neon connection string
    - `NEXTAUTH_SECRET` — generate one: `openssl rand -base64 32`
-   - `NEXTAUTH_URL` — the URL provided by Railway (e.g. `https://palyapartner.up.railway.app`)
-4. Connect your GitHub repo — deployment is automatic
+4. Click Deploy
+
+### After first deploy
+
+Run database migrations and seed data locally:
+
+```bash
+# Make sure .env has the Neon DATABASE_URL
+npx prisma migrate dev --name init
+npx tsx prisma/seed.ts
+```
 
 ## Screens
 
