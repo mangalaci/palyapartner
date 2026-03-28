@@ -10,6 +10,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [showResend, setShowResend] = useState(false)
+  const [resendMessage, setResendMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
@@ -26,6 +28,7 @@ export default function LoginPage() {
     if (result?.error) {
       if (result.error.includes('EMAIL_NOT_VERIFIED')) {
         setError('Először erősítsd meg az email címedet! Nézd meg a postaládádat.')
+        setShowResend(true)
       } else {
         setError('Hibás email vagy jelszó.')
       }
@@ -45,6 +48,26 @@ export default function LoginPage() {
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
           {error}
+          {showResend && (
+            <button
+              onClick={async () => {
+                setResendMessage('')
+                const res = await fetch('/api/resend-verification', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email }),
+                })
+                const data = await res.json()
+                setResendMessage(data.message || data.error)
+              }}
+              className="block mt-2 text-sm text-primary-500 hover:underline font-medium"
+            >
+              Megerősítő email újraküldése
+            </button>
+          )}
+          {resendMessage && (
+            <p className="mt-2 text-sm text-green-700">{resendMessage}</p>
+          )}
         </div>
       )}
 
