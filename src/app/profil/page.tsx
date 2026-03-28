@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { SPORTS, LEVELS, AGE_GROUPS } from '@/lib/types'
+import CitySelect from '@/components/CitySelect'
 
 export default function ProfilePage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [nickname, setNickname] = useState('')
   const [city, setCity] = useState('')
+  const [districts, setDistricts] = useState<string[]>([])
   const [ageGroup, setAgeGroup] = useState('')
   const [bio, setBio] = useState('')
   const [sports, setSports] = useState<{ sport: string; level: string }[]>([])
@@ -29,6 +31,7 @@ export default function ProfilePage() {
         .then((data) => {
           setNickname(data.nickname || '')
           setCity(data.city || '')
+          setDistricts(data.districts || [])
           setAgeGroup(data.ageGroup || '')
           setBio(data.bio || '')
           setSports(data.sports || [])
@@ -66,6 +69,7 @@ export default function ProfilePage() {
         body: JSON.stringify({
           nickname,
           city,
+          districts,
           ageGroup,
           bio,
           sports: validSports,
@@ -110,32 +114,26 @@ export default function ProfilePage() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Becenév
-            </label>
-            <input
-              type="text"
-              required
-              value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Város
-            </label>
-            <input
-              type="text"
-              required
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Becenév
+          </label>
+          <input
+            type="text"
+            required
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+          />
         </div>
+
+        <CitySelect
+          city={city}
+          districts={districts}
+          onCityChange={setCity}
+          onDistrictsChange={setDistricts}
+          required
+        />
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

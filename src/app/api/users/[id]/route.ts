@@ -14,6 +14,7 @@ export async function GET(
         id: true,
         nickname: true,
         city: true,
+        districts: true,
         ageGroup: true,
         bio: true,
         sports: {
@@ -45,7 +46,7 @@ export async function PUT(
 
   try {
     const body = await req.json()
-    const { nickname, city, ageGroup, bio, sports } = body
+    const { nickname, city, districts, ageGroup, bio, sports } = body
 
     await prisma.userSport.deleteMany({ where: { userId: params.id } })
 
@@ -54,6 +55,7 @@ export async function PUT(
       data: {
         nickname,
         city,
+        districts: districts || [],
         ageGroup,
         bio: bio || null,
         sports: {

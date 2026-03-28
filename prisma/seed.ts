@@ -17,6 +17,7 @@ async function main() {
       email: 'kis.daniel@example.com',
       nickname: 'KisDániel',
       city: 'Győr',
+      districts: [] as string[],
       ageGroup: '20-30',
       bio: 'Teniszezni és tollaslabdázni szeretek a legjobban!',
       sports: [
@@ -28,6 +29,7 @@ async function main() {
       email: 'toth.maria@example.com',
       nickname: 'TóthMária',
       city: 'Budapest',
+      districts: ['XI. kerület', 'XXII. kerület'],
       ageGroup: '30-40',
       bio: 'Rendszeresen futok és kerékpározom.',
       sports: [
@@ -39,6 +41,7 @@ async function main() {
       email: 'szabo.gabor@example.com',
       nickname: 'SzabóGábor',
       city: 'Pécs',
+      districts: [],
       ageGroup: '40-50',
       bio: 'Padel rajongó, squash-ban is kipróbálnám magam.',
       sports: [
@@ -50,6 +53,7 @@ async function main() {
       email: 'nagy.anna@example.com',
       nickname: 'NagyAnna',
       city: 'Debrecen',
+      districts: [],
       ageGroup: '20-30',
       bio: 'Kosárlabda és röplabda az életem!',
       sports: [
@@ -61,20 +65,22 @@ async function main() {
       email: 'kovacs.peter@example.com',
       nickname: 'KovácsPéter',
       city: 'Budapest',
+      districts: ['XIII. kerület'],
       ageGroup: '30-40',
-      bio: 'Foci hétvégén, tenisz hétközben.',
+      bio: 'Kispályás foci hétvégén, tenisz hétközben.',
       sports: [
-        { sport: 'Foci', level: 'Középhaladó' },
+        { sport: 'Kispályás foci', level: 'Középhaladó' },
         { sport: 'Tenisz', level: 'Haladó' },
       ],
     },
   ]
 
   for (const userData of users) {
-    const { sports, ...userFields } = userData
+    const { sports, districts, ...userFields } = userData
     await prisma.user.create({
       data: {
         ...userFields,
+        districts: districts || [],
         passwordHash,
         sports: {
           create: sports,
@@ -93,6 +99,7 @@ async function main() {
         level: 'Haladó',
         date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
         city: 'Budapest',
+        districts: ['XIII. kerület'],
         description: 'Szombat délután tenisz a Margitszigeten? Haladó szinten játszom.',
       },
     })

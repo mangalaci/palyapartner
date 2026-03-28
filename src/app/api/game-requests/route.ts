@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json()
-    const { sport, level, date, city, description } = body
+    const { sport, level, date, city, districts, description } = body
 
     if (!sport || !level || !date || !city) {
       return NextResponse.json(
@@ -57,6 +57,7 @@ export async function POST(req: Request) {
         level,
         date: new Date(date),
         city,
+        districts: districts || [],
         description: description || null,
       },
     })

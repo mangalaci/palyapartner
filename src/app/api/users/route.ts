@@ -4,14 +4,16 @@ import { prisma } from '@/lib/prisma'
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const city = searchParams.get('city')
+  const district = searchParams.get('district')
   const sport = searchParams.get('sport')
   const level = searchParams.get('level')
 
   try {
     const users = await prisma.user.findMany({
       where: {
-        ...(city && {
-          city: { contains: city, mode: 'insensitive' as const },
+        ...(city && { city }),
+        ...(district && {
+          districts: { has: district },
         }),
         ...(sport && {
           sports: { some: { sport } },
@@ -24,6 +26,7 @@ export async function GET(req: Request) {
         id: true,
         nickname: true,
         city: true,
+        districts: true,
         ageGroup: true,
         sports: {
           select: { sport: true, level: true },

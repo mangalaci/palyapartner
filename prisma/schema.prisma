@@ -14,6 +14,7 @@ model User {
   nickname     String
   city         String
   ageGroup     String   // "20-30", "30-40", "40-50", "50+"
+  districts    String[] @default([])
   bio          String?
   photoUrl     String?
   createdAt    DateTime @default(now())
@@ -43,6 +44,7 @@ model GameRequest {
   level       String
   date        DateTime
   city        String
+  districts   String[] @default([])
   description String?
   createdAt   DateTime @default(now())
 

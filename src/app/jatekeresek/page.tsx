@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { SPORTS, LEVELS } from '@/lib/types'
+import CitySelect from '@/components/CitySelect'
 
 interface GameRequest {
   id: string
@@ -11,8 +12,9 @@ interface GameRequest {
   level: string
   date: string
   city: string
+  districts: string[]
   description: string | null
-  user: { id: string; nickname: string; city: string }
+  user: { id: string; nickname: string; city: string; districts: string[] }
 }
 
 export default function GameRequestsPage() {
@@ -26,6 +28,7 @@ export default function GameRequestsPage() {
   const [level, setLevel] = useState('')
   const [date, setDate] = useState('')
   const [city, setCity] = useState('')
+  const [formDistricts, setFormDistricts] = useState<string[]>([])
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -53,7 +56,7 @@ export default function GameRequestsPage() {
       const res = await fetch('/api/game-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sport, level, date, city, description }),
+        body: JSON.stringify({ sport, level, date, city, districts: formDistricts, description }),
       })
 
       if (res.ok) {
@@ -61,6 +64,7 @@ export default function GameRequestsPage() {
         setLevel('')
         setDate('')
         setCity('')
+        setFormDistricts([])
         setDescription('')
         setShowForm(false)
         fetchRequests()
@@ -134,23 +138,25 @@ export default function GameRequestsPage() {
                 ))}
               </select>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Időpont
+              </label>
               <input
                 type="datetime-local"
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none"
-              />
-              <input
-                type="text"
-                required
-                placeholder="Város (pl. Budapest)"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none"
               />
             </div>
+            <CitySelect
+              city={city}
+              districts={formDistricts}
+              onCityChange={setCity}
+              onDistrictsChange={setFormDistricts}
+              required
+            />
             <textarea
               placeholder="Rövid leírás (opcionális)"
               value={description}
@@ -193,7 +199,7 @@ export default function GameRequestsPage() {
                     📅 {formatDate(req.date)}
                   </p>
                   <p className="text-gray-500 text-sm mt-1">
-                    📍 {req.city} &middot; {session ? req.user.nickname : '***'}
+                    📍 {req.city}{req.districts.length > 0 ? ` (${req.districts.join(', ')})` : ''} &middot; {session ? req.user.nickname : '***'}
                   </p>
                   {req.description && (
                     <p className="text-gray-600 text-sm mt-2">{req.description}</p>
