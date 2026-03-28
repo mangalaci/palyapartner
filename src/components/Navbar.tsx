@@ -2,11 +2,27 @@
 
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Navbar() {
   const { data: session } = useSession()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    if (!session) return
+
+    function fetchUnread() {
+      fetch('/api/messages/unread')
+        .then((res) => res.json())
+        .then((data) => setUnreadCount(data.count))
+        .catch(() => {})
+    }
+
+    fetchUnread()
+    const interval = setInterval(fetchUnread, 15000)
+    return () => clearInterval(interval)
+  }, [session])
 
   return (
     <nav className="bg-white shadow-sm border-b border-gray-100">
@@ -35,9 +51,14 @@ export default function Navbar() {
               <>
                 <Link
                   href="/uzenetek"
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="text-gray-600 hover:text-gray-900 font-medium relative"
                 >
                   Üzenetek
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-2 -right-5 bg-red-500 text-white text-xs font-bold rounded-full h-5 min-w-5 flex items-center justify-center px-1">
+                      {unreadCount}
+                    </span>
+                  )}
                 </Link>
                 <Link
                   href="/profil"
@@ -103,6 +124,11 @@ export default function Navbar() {
               <>
                 <Link href="/uzenetek" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
                   Üzenetek
+                  {unreadCount > 0 && (
+                    <span className="ml-2 inline-flex items-center justify-center bg-red-500 text-white text-xs font-bold rounded-full h-5 min-w-5 px-1">
+                      {unreadCount}
+                    </span>
+                  )}
                 </Link>
                 <Link href="/profil" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
                   Profilom
