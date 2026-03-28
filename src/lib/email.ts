@@ -9,7 +9,7 @@ export async function sendVerificationEmail(email: string, token: string) {
   const verifyUrl = `${baseUrl}/verify?token=${token}`
 
   await getResend().emails.send({
-    from: 'PályaPartner <noreply@palyapartner.hu>',
+    from: 'PályaPartner <onboarding@resend.dev>',
     to: email,
     subject: 'Email cím megerősítése – PályaPartner',
     html: `
