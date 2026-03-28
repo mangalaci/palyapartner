@@ -24,7 +24,11 @@ export default function LoginPage() {
     })
 
     if (result?.error) {
-      setError('Hibás email vagy jelszó.')
+      if (result.error.includes('EMAIL_NOT_VERIFIED')) {
+        setError('Először erősítsd meg az email címedet! Nézd meg a postaládádat.')
+      } else {
+        setError('Hibás email vagy jelszó.')
+      }
       setLoading(false)
       return
     }

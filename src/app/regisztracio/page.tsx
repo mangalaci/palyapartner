@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { SPORTS, LEVELS, AGE_GROUPS } from '@/lib/types'
 import CitySelect from '@/components/CitySelect'
@@ -72,15 +71,7 @@ export default function RegisterPage() {
         return
       }
 
-      // Auto login
-      await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      })
-
-      router.push('/')
-      router.refresh()
+      router.push('/megerosites')
     } catch {
       setError('Hiba történt. Próbáld újra.')
       setLoading(false)

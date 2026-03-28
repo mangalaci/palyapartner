@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { hash } from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+import { sendVerificationEmail } from '@/lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -23,6 +24,7 @@ export async function POST(req: Request) {
     }
 
     const passwordHash = await hash(password, 12)
+    const verificationToken = crypto.randomUUID()
 
     const user = await prisma.user.create({
       data: {
@@ -33,6 +35,7 @@ export async function POST(req: Request) {
         districts: districts || [],
         ageGroup,
         bio: bio || null,
+        verificationToken,
         sports: {
           create: sports.map((s: { sport: string; level: string }) => ({
             sport: s.sport,
@@ -42,7 +45,9 @@ export async function POST(req: Request) {
       },
     })
 
-    return NextResponse.json({ id: user.id, message: 'Sikeres regisztráció!' })
+    await sendVerificationEmail(email, verificationToken)
+
+    return NextResponse.json({ id: user.id, message: 'Kérjük, erősítsd meg az email címed!' })
   } catch (error) {
     console.error('Registration error:', error)
     return NextResponse.json(
