@@ -12,9 +12,9 @@ export default function Home() {
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center">
-          <h1 className="text-4xl md:text-7xl text-white mb-6 text-sport-outline">
+          <h1 className="text-4xl md:text-7xl text-white mb-6 text-sport-white">
             Találd meg a tökéletes{' '}
-            <span className="text-primary-400">sportpartnered</span>
+            <span className="text-sport-green">sportpartnered</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
             Legyen szó teniszről, fociról vagy futásról, csatlakozz a közösséghez és

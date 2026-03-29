@@ -29,8 +29,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-10 items-center">
           <Link href="/" className="flex items-center">
-            <span className="text-white text-xl font-heading tracking-wide text-sport-outline">PÁLYA</span>
-            <span className="text-primary-400 text-xl font-heading tracking-wide">PARTNER</span>
+            <span className="text-white text-xl font-heading italic text-sport-logo">PÁLYA</span>
+            <span className="text-primary-400 text-xl font-heading italic">PARTNER</span>
           </Link>
 
           {/* Desktop menu */}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,19 +9,28 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Anton', sans-serif;
+  font-family: Impact, 'Anton', sans-serif;
   text-transform: uppercase;
+  font-style: italic;
   letter-spacing: 0.02em;
 }
 
-.text-sport-outline {
-  text-shadow:
-    -2px -2px 0 #0a3518,
-    2px -2px 0 #0a3518,
-    -2px 2px 0 #0a3518,
-    2px 2px 0 #0a3518,
-    0 -2px 0 #0a3518,
-    0 2px 0 #0a3518,
-    -2px 0 0 #0a3518,
-    2px 0 0 #0a3518;
+/* Fehér szöveg sötét körvonallal — mint a minta felső sora */
+.text-sport-white {
+  color: white;
+  -webkit-text-stroke: 3px #0a3518;
+  paint-order: stroke fill;
+}
+
+/* Sötétzöld szöveg fehér körvonallal — mint a minta alsó sora */
+.text-sport-green {
+  color: #0a3518;
+  -webkit-text-stroke: 3px white;
+  paint-order: stroke fill;
+}
+
+/* Navbar logó kisebb körvonal */
+.text-sport-logo {
+  -webkit-text-stroke: 2px #0a3518;
+  paint-order: stroke fill;
 }
