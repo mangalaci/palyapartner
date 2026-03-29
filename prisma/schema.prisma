@@ -13,6 +13,8 @@ model User {
   passwordHash      String
   emailVerified     Boolean  @default(false)
   verificationToken String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
   nickname     String
   city         String
   ageGroup     String   // "20-30", "30-40", "40-50", "50+"
