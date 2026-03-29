@@ -28,9 +28,9 @@ export default function Navbar() {
     <nav className="bg-field-darker/80 backdrop-blur-sm border-b border-primary-700/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-10 items-center">
-          <Link href="/" className="flex items-center gap-1">
-            <span className="text-primary-400 text-xl font-bold font-heading tracking-wide">PÁLYA</span>
-            <span className="text-white text-xl font-bold font-heading tracking-wide">PARTNER</span>
+          <Link href="/" className="flex items-center">
+            <span className="text-white text-xl font-heading tracking-wide text-sport-outline">PÁLYA</span>
+            <span className="text-primary-400 text-xl font-heading tracking-wide">PARTNER</span>
           </Link>
 
           {/* Desktop menu */}

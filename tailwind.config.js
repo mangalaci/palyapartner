@@ -33,7 +33,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        heading: ['Oswald', 'sans-serif'],
+        heading: ['Anton', 'sans-serif'],
+        subheading: ['Oswald', 'sans-serif'],
       },
     },
   },

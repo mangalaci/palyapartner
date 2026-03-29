@@ -12,7 +12,7 @@ export default function Home() {
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl" />
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          <h1 className="text-4xl md:text-7xl text-white mb-6 text-sport-outline">
             Találd meg a tökéletes{' '}
             <span className="text-primary-400">sportpartnered</span>
           </h1>

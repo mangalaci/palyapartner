@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,7 +9,19 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Anton', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.02em;
+}
+
+.text-sport-outline {
+  text-shadow:
+    -2px -2px 0 #0a3518,
+    2px -2px 0 #0a3518,
+    -2px 2px 0 #0a3518,
+    2px 2px 0 #0a3518,
+    0 -2px 0 #0a3518,
+    0 2px 0 #0a3518,
+    -2px 0 0 #0a3518,
+    2px 0 0 #0a3518;
 }
