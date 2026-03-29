@@ -93,7 +93,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-4 flex flex-col" style={{ height: 'calc(100vh - 48px)' }}>
+    <div className="max-w-2xl mx-auto px-4 py-4 flex flex-col" style={{ height: 'calc(100vh - 40px)' }}>
       {/* Header */}
       <div className="flex items-center gap-3 py-3 border-b border-white/10 mb-4">
         <button onClick={() => router.push('/uzenetek')} className="text-gray-400 hover:text-white">
