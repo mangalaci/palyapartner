@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,28 +9,28 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 900;
+  font-family: 'Luckiest Guy', cursive;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
 
-/* Fehér szöveg sötét körvonallal — mint a minta felső sora */
+/* Fehér szöveg fekete körvonallal — mint a minta felső sora */
 .text-sport-white {
   color: white;
-  -webkit-text-stroke: 3px #0a3518;
+  -webkit-text-stroke: 3px #000000;
   paint-order: stroke fill;
 }
 
-/* Sötétzöld szöveg fehér körvonallal — mint a minta alsó sora */
-.text-sport-green {
-  color: #0a3518;
+/* Fekete szöveg fehér körvonallal — mint a minta alsó sora */
+.text-sport-dark {
+  color: #000000;
   -webkit-text-stroke: 3px white;
   paint-order: stroke fill;
 }
 
 /* Navbar logó kisebb körvonal */
 .text-sport-logo {
-  -webkit-text-stroke: 2px #0a3518;
+  -webkit-text-stroke: 2px #000000;
   paint-order: stroke fill;
 }

@@ -25,12 +25,12 @@ export default function Navbar() {
   }, [session])
 
   return (
-    <nav className="bg-field-darker/80 backdrop-blur-sm border-b border-primary-700/30">
+    <nav className="bg-field-dark border-b border-black/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-10 items-center">
           <Link href="/" className="flex items-center">
-            <span className="text-white text-xl font-heading font-black text-sport-logo">PÁLYA</span>
-            <span className="text-primary-400 text-xl font-heading font-black">PARTNER</span>
+            <span className="text-white text-xl font-heading text-sport-logo">PÁLYA</span>
+            <span className="text-primary-400 text-xl font-heading">PARTNER</span>
           </Link>
 
           {/* Desktop menu */}

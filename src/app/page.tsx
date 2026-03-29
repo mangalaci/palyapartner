@@ -6,17 +6,13 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-field-darker via-field-dark to-field opacity-90" />
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-400/10 rounded-full blur-3xl" />
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-field-dark via-field to-field-light opacity-90" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center">
           <h1 className="text-4xl md:text-7xl text-white mb-6 text-sport-white">
             Találd meg a tökéletes{' '}
-            <span className="text-sport-green">sportpartnered</span>
+            <span className="text-sport-dark">sportpartnered</span>
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto">
             Legyen szó teniszről, fociról vagy futásról, csatlakozz a közösséghez és
             soha többé ne játssz egyedül!
           </p>
