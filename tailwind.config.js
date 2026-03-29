@@ -33,7 +33,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        heading: ['Impact', 'Anton', 'sans-serif'],
+        heading: ['Montserrat', 'sans-serif'],
       },
     },
   },
