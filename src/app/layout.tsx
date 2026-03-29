@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="hu">
-      <body className="bg-gray-50 min-h-screen">
+      <body className="bg-field-dark min-h-screen text-white">
         <AuthProvider>
           <Navbar />
           <main>{children}</main>

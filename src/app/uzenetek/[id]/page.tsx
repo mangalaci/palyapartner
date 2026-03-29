@@ -86,25 +86,25 @@ export default function ChatPage() {
 
   if (!session) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-12 text-center text-gray-500">
+      <div className="max-w-2xl mx-auto px-4 py-12 text-center text-gray-400">
         Betöltés...
       </div>
     )
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-4 flex flex-col" style={{ height: 'calc(100vh - 64px)' }}>
+    <div className="max-w-2xl mx-auto px-4 py-4 flex flex-col" style={{ height: 'calc(100vh - 48px)' }}>
       {/* Header */}
-      <div className="flex items-center gap-3 py-3 border-b border-gray-200 mb-4">
-        <button onClick={() => router.push('/uzenetek')} className="text-gray-500 hover:text-gray-700">
+      <div className="flex items-center gap-3 py-3 border-b border-white/10 mb-4">
+        <button onClick={() => router.push('/uzenetek')} className="text-gray-400 hover:text-white">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 font-semibold border-2 border-primary-200">
+        <div className="w-10 h-10 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-300 font-semibold border-2 border-primary-500/30">
           {partnerName.charAt(0)?.toUpperCase() || '?'}
         </div>
-        <h2 className="font-semibold text-gray-900">{partnerName}</h2>
+        <h2 className="font-semibold text-white">{partnerName}</h2>
       </div>
 
       {/* Messages */}
@@ -120,13 +120,13 @@ export default function ChatPage() {
                 className={`max-w-[75%] px-4 py-2.5 rounded-2xl ${
                   isMine
                     ? 'bg-primary-500 text-white rounded-br-md'
-                    : 'bg-gray-100 text-gray-900 rounded-bl-md'
+                    : 'bg-white/10 text-gray-200 rounded-bl-md'
                 }`}
               >
                 <p>{msg.content}</p>
                 <p
                   className={`text-xs mt-1 ${
-                    isMine ? 'text-primary-200' : 'text-gray-400'
+                    isMine ? 'text-primary-200' : 'text-gray-500'
                   }`}
                 >
                   {new Date(msg.createdAt).toLocaleTimeString('hu-HU', {
@@ -148,7 +148,7 @@ export default function ChatPage() {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Írj üzenetet..."
-          className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+          className="flex-1 px-4 py-3 border border-white/20 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
         />
         <button
           type="submit"

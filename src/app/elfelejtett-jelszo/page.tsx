@@ -40,19 +40,19 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="max-w-md mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Elfelejtett jelszó</h1>
-      <p className="text-gray-600 mb-8">
+      <h1 className="text-3xl font-bold text-white mb-2">Elfelejtett jelszó</h1>
+      <p className="text-gray-400 mb-8">
         Add meg az email címedet, és küldünk egy linket a jelszó visszaállításához.
       </p>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <div className="bg-red-500/20 border border-red-500/30 text-red-300 px-4 py-3 rounded-lg mb-6">
           {error}
         </div>
       )}
 
       {message && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+        <div className="bg-green-500/20 border border-green-500/30 text-green-300 px-4 py-3 rounded-lg mb-6">
           {message}
         </div>
       )}
@@ -60,7 +60,7 @@ export default function ForgotPasswordPage() {
       {!sent ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-300 mb-1">
               Email
             </label>
             <input
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+              className="w-full px-4 py-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
             />
           </div>
 
@@ -82,15 +82,15 @@ export default function ForgotPasswordPage() {
         </form>
       ) : (
         <div className="text-center">
-          <div className="text-5xl mb-4">📧</div>
-          <p className="text-gray-600 mb-6">
+          <p className="text-4xl mb-4">📧</p>
+          <p className="text-gray-300 mb-6">
             Nézd meg a postaládádat! Ha nem találod, ellenőrizd a spam mappát is.
           </p>
         </div>
       )}
 
-      <p className="text-center text-gray-600 mt-6">
-        <Link href="/bejelentkezes" className="text-primary-500 hover:underline">
+      <p className="text-center text-gray-400 mt-6">
+        <Link href="/bejelentkezes" className="text-primary-400 hover:underline">
           Vissza a bejelentkezéshez
         </Link>
       </p>

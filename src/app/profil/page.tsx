@@ -91,7 +91,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-12 text-center text-gray-500">
+      <div className="max-w-2xl mx-auto px-4 py-12 text-center text-gray-400">
         Betöltés...
       </div>
     )
@@ -99,14 +99,14 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Profilom szerkesztése</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">Profilom szerkesztése</h1>
 
       {message && (
         <div
           className={`px-4 py-3 rounded-lg mb-6 ${
             message.includes('sikeresen')
-              ? 'bg-green-50 border border-green-200 text-green-700'
-              : 'bg-red-50 border border-red-200 text-red-700'
+              ? 'bg-green-500/20 border border-green-500/30 text-green-300'
+              : 'bg-red-500/20 border border-red-500/30 text-red-300'
           }`}
         >
           {message}
@@ -115,7 +115,7 @@ export default function ProfilePage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Becenév
           </label>
           <input
@@ -123,7 +123,7 @@ export default function ProfilePage() {
             required
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+            className="w-full px-4 py-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
           />
         </div>
 
@@ -136,24 +136,24 @@ export default function ProfilePage() {
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Korosztály
           </label>
           <select
             required
             value={ageGroup}
             onChange={(e) => setAgeGroup(e.target.value)}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none bg-white"
+            className="w-full px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
           >
-            <option value="">Válassz korosztályt</option>
+            <option value="" className="bg-field-dark text-white">Válassz korosztályt</option>
             {AGE_GROUPS.map((ag) => (
-              <option key={ag} value={ag}>{ag} éves</option>
+              <option key={ag} value={ag} className="bg-field-dark text-white">{ag} éves</option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-300 mb-2">
             Sportok és szintek
           </label>
           {sports.map((s, i) => (
@@ -161,27 +161,27 @@ export default function ProfilePage() {
               <select
                 value={s.sport}
                 onChange={(e) => updateSport(i, 'sport', e.target.value)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg outline-none bg-white"
+                className="flex-1 px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
               >
-                <option value="">Válassz sportot</option>
+                <option value="" className="bg-field-dark text-white">Válassz sportot</option>
                 {SPORTS.map((sp) => (
-                  <option key={sp} value={sp}>{sp}</option>
+                  <option key={sp} value={sp} className="bg-field-dark text-white">{sp}</option>
                 ))}
               </select>
               <select
                 value={s.level}
                 onChange={(e) => updateSport(i, 'level', e.target.value)}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg outline-none bg-white"
+                className="flex-1 px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
               >
-                <option value="">Szint</option>
+                <option value="" className="bg-field-dark text-white">Szint</option>
                 {LEVELS.map((l) => (
-                  <option key={l} value={l}>{l}</option>
+                  <option key={l} value={l} className="bg-field-dark text-white">{l}</option>
                 ))}
               </select>
               <button
                 type="button"
                 onClick={() => removeSport(i)}
-                className="px-3 py-2 text-red-500 hover:bg-red-50 rounded-lg"
+                className="px-3 py-2 text-red-400 hover:bg-red-500/20 rounded-lg"
               >
                 X
               </button>
@@ -190,14 +190,14 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={addSport}
-            className="text-primary-500 hover:text-primary-600 text-sm font-medium mt-1"
+            className="text-primary-400 hover:text-primary-300 text-sm font-medium mt-1"
           >
             + Sport hozzáadása
           </button>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Bemutatkozás
           </label>
           <textarea
@@ -205,7 +205,7 @@ export default function ProfilePage() {
             onChange={(e) => setBio(e.target.value)}
             rows={3}
             placeholder="Néhány szó magadról..."
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none"
+            className="w-full px-4 py-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500 resize-none"
           />
         </div>
 

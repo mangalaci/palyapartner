@@ -17,10 +17,10 @@ function ResetPasswordForm() {
   if (!token) {
     return (
       <div className="text-center">
-        <div className="text-5xl mb-4">❌</div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">Érvénytelen link</h1>
-        <p className="text-gray-600 mb-6">Hiányzó token. Kérj új jelszó-visszaállítást.</p>
-        <Link href="/elfelejtett-jelszo" className="text-primary-500 hover:underline font-medium">
+        <p className="text-4xl mb-4">❌</p>
+        <h1 className="text-2xl font-bold text-white mb-3">Érvénytelen link</h1>
+        <p className="text-gray-400 mb-6">Hiányzó token. Kérj új jelszó-visszaállítást.</p>
+        <Link href="/elfelejtett-jelszo" className="text-primary-400 hover:underline font-medium">
           Elfelejtett jelszó
         </Link>
       </div>
@@ -64,9 +64,9 @@ function ResetPasswordForm() {
   if (success) {
     return (
       <div className="text-center">
-        <div className="text-5xl mb-4">✅</div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">{message}</h1>
-        <p className="text-gray-600 mb-6">Most már bejelentkezhetsz az új jelszavaddal.</p>
+        <p className="text-4xl mb-4">✅</p>
+        <h1 className="text-2xl font-bold text-white mb-3">{message}</h1>
+        <p className="text-gray-400 mb-6">Most már bejelentkezhetsz az új jelszavaddal.</p>
         <Link
           href="/bejelentkezes"
           className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
@@ -79,18 +79,18 @@ function ResetPasswordForm() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Új jelszó beállítása</h1>
-      <p className="text-gray-600 mb-8">Add meg az új jelszavadat.</p>
+      <h1 className="text-3xl font-bold text-white mb-2">Új jelszó beállítása</h1>
+      <p className="text-gray-400 mb-8">Add meg az új jelszavadat.</p>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <div className="bg-red-500/20 border border-red-500/30 text-red-300 px-4 py-3 rounded-lg mb-6">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Új jelszó
           </label>
           <input
@@ -99,11 +99,11 @@ function ResetPasswordForm() {
             minLength={6}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+            className="w-full px-4 py-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-300 mb-1">
             Új jelszó megerősítése
           </label>
           <input
@@ -112,7 +112,7 @@ function ResetPasswordForm() {
             minLength={6}
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+            className="w-full px-4 py-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
           />
         </div>
 
@@ -133,7 +133,7 @@ export default function ResetPasswordPage() {
     <div className="max-w-md mx-auto px-4 py-12">
       <Suspense
         fallback={
-          <div className="text-center py-12 text-gray-500">Betöltés...</div>
+          <div className="text-center py-12 text-gray-400">Betöltés...</div>
         }
       >
         <ResetPasswordForm />

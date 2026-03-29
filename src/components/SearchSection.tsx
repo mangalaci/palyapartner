@@ -52,7 +52,7 @@ export default function SearchSection() {
   }, [])
 
   return (
-    <section className="bg-gray-50 border-t border-b border-gray-200">
+    <section className="border-t border-b border-white/10">
       {/* Search Filters */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <form onSubmit={handleSearch} className="space-y-3">
@@ -63,11 +63,11 @@ export default function SearchSection() {
                 setCity(e.target.value)
                 if (e.target.value !== 'Budapest') setDistrict('')
               }}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white"
+              className="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white"
             >
-              <option value="">Minden város</option>
+              <option value="" className="bg-field-dark text-white">Minden város</option>
               {CITIES.map((c) => (
-                <option key={c} value={c}>
+                <option key={c} value={c} className="bg-field-dark text-white">
                   {c}
                 </option>
               ))}
@@ -76,11 +76,11 @@ export default function SearchSection() {
               <select
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white"
+                className="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white"
               >
-                <option value="">Minden kerület</option>
+                <option value="" className="bg-field-dark text-white">Minden kerület</option>
                 {BUDAPEST_DISTRICTS.map((d) => (
-                  <option key={d} value={d}>
+                  <option key={d} value={d} className="bg-field-dark text-white">
                     {d}
                   </option>
                 ))}
@@ -89,11 +89,11 @@ export default function SearchSection() {
             <select
               value={sport}
               onChange={(e) => setSport(e.target.value)}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white"
+              className="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white"
             >
-              <option value="">Minden sport</option>
+              <option value="" className="bg-field-dark text-white">Minden sport</option>
               {SPORTS.map((s) => (
-                <option key={s} value={s}>
+                <option key={s} value={s} className="bg-field-dark text-white">
                   {s}
                 </option>
               ))}
@@ -101,11 +101,11 @@ export default function SearchSection() {
             <select
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white"
+              className="flex-1 px-4 py-3 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white"
             >
-              <option value="">Minden szint</option>
+              <option value="" className="bg-field-dark text-white">Minden szint</option>
               {LEVELS.map((l) => (
-                <option key={l} value={l}>
+                <option key={l} value={l} className="bg-field-dark text-white">
                   {l}
                 </option>
               ))}
@@ -126,21 +126,21 @@ export default function SearchSection() {
       {/* Results */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <svg className="w-7 h-7 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+            <svg className="w-7 h-7 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             Játékosok a közeledben
           </h2>
           {searched && (
-            <span className="text-primary-500 font-medium">
+            <span className="text-primary-400 font-medium">
               {players.length} találat
             </span>
           )}
         </div>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-500">Keresés...</div>
+          <div className="text-center py-12 text-gray-400">Keresés...</div>
         ) : players.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {players.map((player) => (
@@ -157,7 +157,7 @@ export default function SearchSection() {
             ))}
           </div>
         ) : searched ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-gray-400">
             Nem találtunk játékost a megadott szűrőkkel.
           </div>
         ) : null}

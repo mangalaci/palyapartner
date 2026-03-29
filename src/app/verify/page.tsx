@@ -35,19 +35,19 @@ function VerifyContent() {
   }, [token])
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-8">
+    <div className="bg-white/5 rounded-xl border border-white/10 p-8">
       {status === 'loading' && (
         <>
-          <div className="text-5xl mb-4">⏳</div>
-          <p className="text-gray-600">Megerősítés folyamatban...</p>
+          <p className="text-4xl mb-4">⏳</p>
+          <p className="text-gray-300">Megerősítés folyamatban...</p>
         </>
       )}
 
       {status === 'success' && (
         <>
-          <div className="text-5xl mb-4">✅</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">{message}</h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-4xl mb-4">✅</p>
+          <h1 className="text-2xl font-bold text-white mb-3">{message}</h1>
+          <p className="text-gray-300 mb-6">
             Most már bejelentkezhetsz a fiókodba.
           </p>
           <Link
@@ -61,12 +61,12 @@ function VerifyContent() {
 
       {status === 'error' && (
         <>
-          <div className="text-5xl mb-4">❌</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">Hiba történt</h1>
-          <p className="text-gray-600 mb-6">{message}</p>
+          <p className="text-4xl mb-4">❌</p>
+          <h1 className="text-2xl font-bold text-white mb-3">Hiba történt</h1>
+          <p className="text-gray-400 mb-6">{message}</p>
           <Link
             href="/regisztracio"
-            className="text-primary-500 hover:underline font-medium"
+            className="text-primary-400 hover:underline font-medium"
           >
             Vissza a regisztrációhoz
           </Link>
@@ -81,9 +81,9 @@ export default function VerifyPage() {
     <div className="max-w-md mx-auto px-4 py-24 text-center">
       <Suspense
         fallback={
-          <div className="bg-white rounded-xl border border-gray-200 p-8">
-            <div className="text-5xl mb-4">⏳</div>
-            <p className="text-gray-600">Megerősítés folyamatban...</p>
+          <div className="bg-white/5 rounded-xl border border-white/10 p-8">
+            <p className="text-4xl mb-4">⏳</p>
+            <p className="text-gray-300">Megerősítés folyamatban...</p>
           </div>
         }
       >

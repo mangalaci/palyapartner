@@ -25,25 +25,25 @@ export default function Navbar() {
   }, [session])
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-100">
+    <nav className="bg-field-darker/80 backdrop-blur-sm border-b border-primary-700/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-primary-500 text-2xl font-bold">Pálya</span>
-            <span className="text-navy-800 text-2xl font-bold">Partner</span>
+        <div className="flex justify-between h-12 items-center">
+          <Link href="/" className="flex items-center gap-1">
+            <span className="text-primary-400 text-xl font-bold font-heading tracking-wide">PÁLYA</span>
+            <span className="text-white text-xl font-bold font-heading tracking-wide">PARTNER</span>
           </Link>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-5">
             <Link
               href="/jatekosok"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
             >
               Játékosok
             </Link>
             <Link
               href="/jatekeresek"
-              className="text-gray-600 hover:text-gray-900 font-medium"
+              className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
             >
               Játékkérések
             </Link>
@@ -51,7 +51,7 @@ export default function Navbar() {
               <>
                 <Link
                   href="/uzenetek"
-                  className="text-gray-600 hover:text-gray-900 font-medium relative"
+                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors relative"
                 >
                   Üzenetek
                   {unreadCount > 0 && (
@@ -62,13 +62,13 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/profil"
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
                 >
                   Profilom
                 </Link>
                 <button
                   onClick={() => signOut()}
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
                 >
                   Kijelentkezés
                 </button>
@@ -77,13 +77,13 @@ export default function Navbar() {
               <>
                 <Link
                   href="/bejelentkezes"
-                  className="text-gray-600 hover:text-gray-900 font-medium"
+                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
                 >
                   Bejelentkezés
                 </Link>
                 <Link
                   href="/regisztracio"
-                  className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                  className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-1.5 rounded-lg font-medium text-sm transition-colors"
                 >
                   Regisztráció
                 </Link>
@@ -93,11 +93,11 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-1.5"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <svg
-              className="h-6 w-6 text-gray-600"
+              className="h-5 w-5 text-gray-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -113,16 +113,16 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden pb-4 space-y-2">
-            <Link href="/jatekosok" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
+          <div className="md:hidden pb-3 space-y-1">
+            <Link href="/jatekosok" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
               Játékosok
             </Link>
-            <Link href="/jatekeresek" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
+            <Link href="/jatekeresek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
               Játékkérések
             </Link>
             {session ? (
               <>
-                <Link href="/uzenetek" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
+                <Link href="/uzenetek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
                   Üzenetek
                   {unreadCount > 0 && (
                     <span className="ml-2 inline-flex items-center justify-center bg-red-500 text-white text-xs font-bold rounded-full h-5 min-w-5 px-1">
@@ -130,19 +130,19 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
-                <Link href="/profil" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
+                <Link href="/profil" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
                   Profilom
                 </Link>
-                <button onClick={() => { signOut(); setMenuOpen(false) }} className="block py-2 text-gray-600 hover:text-gray-900 font-medium">
+                <button onClick={() => { signOut(); setMenuOpen(false) }} className="block py-2 text-gray-200 hover:text-white font-medium text-sm">
                   Kijelentkezés
                 </button>
               </>
             ) : (
               <>
-                <Link href="/bejelentkezes" className="block py-2 text-gray-600 hover:text-gray-900 font-medium" onClick={() => setMenuOpen(false)}>
+                <Link href="/bejelentkezes" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
                   Bejelentkezés
                 </Link>
-                <Link href="/regisztracio" className="block py-2 bg-primary-500 text-white text-center rounded-lg font-medium" onClick={() => setMenuOpen(false)}>
+                <Link href="/regisztracio" className="block py-2 bg-primary-500 text-white text-center rounded-lg font-medium text-sm" onClick={() => setMenuOpen(false)}>
                   Regisztráció
                 </Link>
               </>

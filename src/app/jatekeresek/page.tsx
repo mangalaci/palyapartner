@@ -89,7 +89,7 @@ export default function GameRequestsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Játékkérések</h1>
+        <h1 className="text-3xl font-bold text-white">Játékkérések</h1>
         {session && (
           <button
             onClick={() => setShowForm(!showForm)}
@@ -101,7 +101,7 @@ export default function GameRequestsPage() {
       </div>
 
       {!session && (
-        <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-6">
+        <div className="bg-blue-500/20 border border-blue-500/30 text-blue-300 px-4 py-3 rounded-lg mb-6">
           <Link href="/bejelentkezes" className="underline">
             Jelentkezz be
           </Link>{' '}
@@ -111,35 +111,35 @@ export default function GameRequestsPage() {
 
       {/* New game request form */}
       {showForm && (
-        <div className="bg-white border border-gray-200 rounded-xl p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">Új játékkérés</h2>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4">Új játékkérés</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
               <select
                 required
                 value={sport}
                 onChange={(e) => setSport(e.target.value)}
-                className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none bg-white"
+                className="px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
               >
-                <option value="">Válassz sportot</option>
+                <option value="" className="bg-field-dark text-white">Válassz sportot</option>
                 {SPORTS.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s} className="bg-field-dark text-white">{s}</option>
                 ))}
               </select>
               <select
                 required
                 value={level}
                 onChange={(e) => setLevel(e.target.value)}
-                className="px-4 py-2.5 border border-gray-300 rounded-lg outline-none bg-white"
+                className="px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
               >
-                <option value="">Szint</option>
+                <option value="" className="bg-field-dark text-white">Szint</option>
                 {LEVELS.map((l) => (
-                  <option key={l} value={l}>{l}</option>
+                  <option key={l} value={l} className="bg-field-dark text-white">{l}</option>
                 ))}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Időpont
               </label>
               <input
@@ -147,7 +147,7 @@ export default function GameRequestsPage() {
                 required
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none"
+                className="w-full px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
               />
             </div>
             <CitySelect
@@ -162,7 +162,7 @@ export default function GameRequestsPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={2}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none resize-none"
+              className="w-full px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white placeholder:text-gray-500 resize-none"
             />
             <button
               type="submit"
@@ -177,32 +177,32 @@ export default function GameRequestsPage() {
 
       {/* Game requests list */}
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Betöltés...</div>
+        <div className="text-center py-12 text-gray-400">Betöltés...</div>
       ) : requests.length > 0 ? (
         <div className="space-y-4">
           {requests.map((req) => (
             <div
               key={req.id}
-              className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow"
+              className="bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-colors"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="inline-flex items-center gap-1 bg-orange-50 text-orange-700 text-sm px-3 py-1 rounded-full font-medium">
-                      🏅 {req.sport}
+                    <span className="inline-flex items-center gap-1 bg-primary-500/20 text-primary-300 text-sm px-3 py-1 rounded-full font-medium border border-primary-500/30">
+                      {req.sport}
                     </span>
-                    <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    <span className="text-sm text-gray-300 bg-white/10 px-3 py-1 rounded-full">
                       {req.level}
                     </span>
                   </div>
-                  <p className="text-gray-900 font-medium">
-                    📅 {formatDate(req.date)}
+                  <p className="text-white font-medium">
+                    {formatDate(req.date)}
                   </p>
-                  <p className="text-gray-500 text-sm mt-1">
-                    📍 {req.city}{req.districts.length > 0 ? ` (${req.districts.join(', ')})` : ''} &middot; {session ? req.user.nickname : '***'}
+                  <p className="text-gray-400 text-sm mt-1">
+                    {req.city}{req.districts.length > 0 ? ` (${req.districts.join(', ')})` : ''} &middot; {session ? req.user.nickname : '***'}
                   </p>
                   {req.description && (
-                    <p className="text-gray-600 text-sm mt-2">{req.description}</p>
+                    <p className="text-gray-300 text-sm mt-2">{req.description}</p>
                   )}
                 </div>
                 {session && session.user.id !== req.user.id && (
@@ -218,7 +218,7 @@ export default function GameRequestsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-500">
+        <div className="text-center py-12 text-gray-400">
           Jelenleg nincsenek nyitott játékkérések.
         </div>
       )}
