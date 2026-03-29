@@ -54,22 +54,22 @@ export default function MessagesPage() {
             <Link
               key={conv.partnerId}
               href={`/uzenetek/${conv.partnerId}`}
-              className="block bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-colors"
+              className="block bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition-shadow"
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary-500/20 flex items-center justify-center text-primary-300 text-lg font-semibold border-2 border-primary-500/30">
+                <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 text-lg font-semibold border-2 border-primary-300">
                   {conv.partnerName.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-white">
+                    <h3 className="font-semibold text-gray-900">
                       {conv.partnerName}
                     </h3>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-400">
                       {new Date(conv.lastDate).toLocaleDateString('hu-HU')}
                     </span>
                   </div>
-                  <p className="text-gray-400 text-sm truncate">
+                  <p className="text-gray-500 text-sm truncate">
                     {conv.lastMessage}
                   </p>
                 </div>
