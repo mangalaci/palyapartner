@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { SPORT_ICONS } from '@/lib/types'
 
 interface PlayerProfile {
   id: string
@@ -95,7 +96,7 @@ export default function PlayerProfilePage() {
                   className="flex items-center justify-between bg-gray-50 rounded-lg px-4 py-3 border border-gray-200"
                 >
                   <span className="font-medium text-gray-900 flex items-center gap-2">
-                    {s.sport}
+                    {SPORT_ICONS[s.sport] || '🏅'} {s.sport}
                   </span>
                   <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
                     {s.level}

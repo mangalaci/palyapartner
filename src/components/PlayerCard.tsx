@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { SPORT_ICONS } from '@/lib/types'
 
 interface PlayerCardProps {
   id: string
@@ -70,7 +71,7 @@ export default function PlayerCard({
               key={s.sport}
               className="inline-flex items-center gap-1 bg-primary-100 text-primary-800 text-sm px-2.5 py-1 rounded-full border border-primary-300"
             >
-              {s.sport}
+              <span>{SPORT_ICONS[s.sport] || '🏅'}</span> {s.sport}
             </span>
           ))}
         </div>

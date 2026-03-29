@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-import { SPORTS, LEVELS } from '@/lib/types'
+import { SPORTS, LEVELS, SPORT_ICONS } from '@/lib/types'
 import CitySelect from '@/components/CitySelect'
 
 interface GameRequest {
@@ -189,7 +189,7 @@ export default function GameRequestsPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <span className="inline-flex items-center gap-1 bg-primary-100 text-primary-700 text-sm px-3 py-1 rounded-full font-medium border border-primary-300">
-                      {req.sport}
+                      {SPORT_ICONS[req.sport] || '🏅'} {req.sport}
                     </span>
                     <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
                       {req.level}

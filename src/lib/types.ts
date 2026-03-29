@@ -85,6 +85,23 @@ export const BUDAPEST_DISTRICTS = [
   'XXIII. kerület',
 ] as const
 
+export const SPORT_ICONS: Record<string, string> = {
+  'Tenisz': '🎾',
+  'Tollaslabda': '🏸',
+  'Squash': '🎾',
+  'Padel': '🏓',
+  'Asztalitenisz': '🏓',
+  'Futás': '🏃',
+  'Kerékpározás': '🚴',
+  'Kosárlabda': '🏀',
+  'Röplabda': '🏐',
+  'Kispályás foci': '⚽',
+  'Nagypályás foci': '⚽',
+  'Futsal': '⚽',
+  'Kézilabda': '🤾',
+  'Úszás': '🏊',
+}
+
 export type Sport = (typeof SPORTS)[number]
 export type Level = (typeof LEVELS)[number]
 export type AgeGroup = (typeof AGE_GROUPS)[number]
