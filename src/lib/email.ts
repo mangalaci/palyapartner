@@ -5,21 +5,21 @@ function getResend() {
 }
 
 export async function sendVerificationEmail(email: string, token: string) {
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://palyapartner.vercel.app'
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://palyapartner.hu'
   const verifyUrl = `${baseUrl}/verify?token=${token}`
 
   await getResend().emails.send({
-    from: 'PályaPartner <onboarding@resend.dev>',
+    from: 'PályaPartner <noreply@palyapartner.hu>',
     to: email,
     subject: 'Email cím megerősítése – PályaPartner',
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 24px;">
-        <h2 style="color: #2563eb;">PályaPartner</h2>
+        <h2 style="color: #00A651;">PályaPartner</h2>
         <p>Szia!</p>
         <p>Köszönjük a regisztrációt! Kattints az alábbi gombra az email címed megerősítéséhez:</p>
         <a
           href="${verifyUrl}"
-          style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 16px 0;"
+          style="display: inline-block; background: #00A651; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 16px 0;"
         >
           Email megerősítése
         </a>
@@ -36,21 +36,21 @@ export async function sendVerificationEmail(email: string, token: string) {
 }
 
 export async function sendPasswordResetEmail(email: string, token: string) {
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://palyapartner.vercel.app'
+  const baseUrl = process.env.NEXTAUTH_URL || 'https://palyapartner.hu'
   const resetUrl = `${baseUrl}/uj-jelszo?token=${token}`
 
   await getResend().emails.send({
-    from: 'PályaPartner <onboarding@resend.dev>',
+    from: 'PályaPartner <noreply@palyapartner.hu>',
     to: email,
     subject: 'Jelszó visszaállítás – PályaPartner',
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 24px;">
-        <h2 style="color: #2563eb;">PályaPartner</h2>
+        <h2 style="color: #00A651;">PályaPartner</h2>
         <p>Szia!</p>
         <p>Jelszó visszaállítást kértél. Kattints az alábbi gombra az új jelszó beállításához:</p>
         <a
           href="${resetUrl}"
-          style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 16px 0;"
+          style="display: inline-block; background: #00A651; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 16px 0;"
         >
           Új jelszó beállítása
         </a>
