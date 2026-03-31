@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { TEAM_SPORTS, LEVELS, CITIES, BUDAPEST_DISTRICTS, SPORT_ICONS } from '@/lib/types'
 import CitySelect from '@/components/CitySelect'
+import MapPicker from '@/components/MapPicker'
 
 const TEAM_SPORTS_LIST = [...TEAM_SPORTS]
 
@@ -50,6 +51,8 @@ export default function MatchesPage() {
   const [formDistricts, setFormDistricts] = useState<string[]>([])
   const [minPlayers, setMinPlayers] = useState('6')
   const [maxPlayers, setMaxPlayers] = useState('10')
+  const [lat, setLat] = useState<number | null>(null)
+  const [lng, setLng] = useState<number | null>(null)
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
@@ -90,7 +93,7 @@ export default function MatchesPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sport, level, date, locationName, city,
+          sport, level, date, locationName, lat, lng, city,
           districts: formDistricts, minPlayers, maxPlayers, description,
         }),
       })
@@ -100,6 +103,8 @@ export default function MatchesPage() {
         setLevel('')
         setDate('')
         setLocationName('')
+        setLat(null)
+        setLng(null)
         setCity('')
         setFormDistricts([])
         setMinPlayers('6')
@@ -289,6 +294,10 @@ export default function MatchesPage() {
                 onChange={(e) => setLocationName(e.target.value)}
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg outline-none bg-white text-gray-900 placeholder:text-gray-400"
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Pontos helyszín a térképen</label>
+              <MapPicker lat={lat} lng={lng} onLocationSelect={(newLat, newLng) => { setLat(newLat); setLng(newLng) }} />
             </div>
             <CitySelect
               city={city}
