@@ -102,6 +102,15 @@ export const SPORT_ICONS: Record<string, string> = {
   'Úszás': '🏊',
 }
 
+export const TEAM_SPORTS = [
+  'Kosárlabda',
+  'Röplabda',
+  'Kispályás foci',
+  'Nagypályás foci',
+  'Futsal',
+  'Kézilabda',
+] as const
+
 export type Sport = (typeof SPORTS)[number]
 export type Level = (typeof LEVELS)[number]
 export type AgeGroup = (typeof AGE_GROUPS)[number]

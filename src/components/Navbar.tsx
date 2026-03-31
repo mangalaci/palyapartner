@@ -42,6 +42,12 @@ export default function Navbar() {
               Játékosok
             </Link>
             <Link
+              href="/meccsek"
+              className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+            >
+              Meccsek
+            </Link>
+            <Link
               href="/jatekeresek"
               className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
             >
@@ -116,6 +122,9 @@ export default function Navbar() {
           <div className="md:hidden pb-3 space-y-1">
             <Link href="/jatekosok" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
               Játékosok
+            </Link>
+            <Link href="/meccsek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+              Meccsek
             </Link>
             <Link href="/jatekeresek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
               Játékkérések
