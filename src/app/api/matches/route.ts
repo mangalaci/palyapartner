@@ -7,6 +7,8 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url)
   const city = searchParams.get('city')
   const sport = searchParams.get('sport')
+  const districts = searchParams.get('districts')
+  const districtList = districts ? districts.split(',') : []
 
   try {
     const matches = await prisma.match.findMany({
@@ -15,6 +17,7 @@ export async function GET(req: Request) {
         status: { in: ['open', 'confirmed', 'full'] },
         ...(city && { city }),
         ...(sport && { sport }),
+        ...(districtList.length > 0 && { districts: { hasSome: districtList } }),
       },
       include: {
         organizer: {

@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { TEAM_SPORTS, LEVELS, CITIES, BUDAPEST_DISTRICTS, SPORT_ICONS } from '@/lib/types'
 import CitySelect from '@/components/CitySelect'
 
+const TEAM_SPORTS_LIST = [...TEAM_SPORTS]
+
 interface Participant {
   id: string
   type: string
@@ -36,6 +38,7 @@ export default function MatchesPage() {
 
   // Szűrők
   const [filterCity, setFilterCity] = useState('')
+  const [filterDistricts, setFilterDistricts] = useState<string[]>([])
   const [filterSport, setFilterSport] = useState('')
 
   // Form
@@ -50,11 +53,20 @@ export default function MatchesPage() {
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
+  // Szűrő értékek átmásolása a formba amikor megnyitjuk
+  function openForm() {
+    if (filterSport) setSport(filterSport)
+    if (filterCity) setCity(filterCity)
+    if (filterDistricts.length > 0) setFormDistricts(filterDistricts)
+    setShowForm(true)
+  }
+
   async function fetchMatches() {
     try {
       const params = new URLSearchParams()
       if (filterCity) params.set('city', filterCity)
       if (filterSport) params.set('sport', filterSport)
+      if (filterDistricts.length > 0) params.set('districts', filterDistricts.join(','))
       const res = await fetch(`/api/matches?${params}`)
       const data = await res.json()
       setMatches(data)
@@ -67,7 +79,7 @@ export default function MatchesPage() {
 
   useEffect(() => {
     fetchMatches()
-  }, [filterCity, filterSport])
+  }, [filterCity, filterSport, filterDistricts])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -138,7 +150,7 @@ export default function MatchesPage() {
         <h1 className="text-3xl font-bold text-white">Meccsek</h1>
         {session && (
           <button
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => showForm ? setShowForm(false) : openForm()}
             className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
           >
             {showForm ? 'Mégse' : '+ Meccs szervezése'}
@@ -156,27 +168,50 @@ export default function MatchesPage() {
       )}
 
       {/* Szűrők */}
-      <div className="flex gap-3 mb-6">
-        <select
-          value={filterCity}
-          onChange={(e) => setFilterCity(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm"
-        >
-          <option value="">Minden város</option>
-          {CITIES.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-        <select
-          value={filterSport}
-          onChange={(e) => setFilterSport(e.target.value)}
-          className="px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm"
-        >
-          <option value="">Minden sport</option>
-          {TEAM_SPORTS.map((s) => (
-            <option key={s} value={s}>{SPORT_ICONS[s] || ''} {s}</option>
-          ))}
-        </select>
+      <div className="space-y-3 mb-6">
+        <div className="flex gap-3">
+          <select
+            value={filterCity}
+            onChange={(e) => { setFilterCity(e.target.value); setFilterDistricts([]) }}
+            className="px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm"
+          >
+            <option value="">Minden város</option>
+            {CITIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+          <select
+            value={filterSport}
+            onChange={(e) => setFilterSport(e.target.value)}
+            className="px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm"
+          >
+            <option value="">Minden sport</option>
+            {TEAM_SPORTS_LIST.map((s) => (
+              <option key={s} value={s}>{SPORT_ICONS[s] || ''} {s}</option>
+            ))}
+          </select>
+        </div>
+        {filterCity === 'Budapest' && (
+          <div className="flex flex-wrap gap-2">
+            {BUDAPEST_DISTRICTS.map((d) => (
+              <button
+                key={d}
+                onClick={() => {
+                  setFilterDistricts(prev =>
+                    prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d]
+                  )
+                }}
+                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  filterDistricts.includes(d)
+                    ? 'bg-primary-500 text-white'
+                    : 'bg-white text-gray-700 border border-gray-200'
+                }`}
+              >
+                {d.replace(' kerület', '.')}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Meccs létrehozás form */}
