@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { SPORTS, LEVELS, AGE_GROUPS } from '@/lib/types'
+import { SPORTS, LEVELS, AGE_GROUPS, SPORT_ICONS } from '@/lib/types'
 import CitySelect from '@/components/CitySelect'
 
 export default function ProfilePage() {
@@ -18,6 +18,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [stats, setStats] = useState<{ totalMatches: number; organizedCount: number; sportCounts: Record<string, number> } | null>(null)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -35,6 +36,7 @@ export default function ProfilePage() {
           setAgeGroup(data.ageGroup || '')
           setBio(data.bio || '')
           setSports(data.sports || [])
+          setStats(data.stats || null)
           setLoading(false)
         })
         .catch(() => setLoading(false))
@@ -99,7 +101,43 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-white mb-8">Profilom szerkesztése</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">Profilom</h1>
+
+      {/* Statisztikák */}
+      {stats && (
+        <div className="bg-white/10 rounded-xl p-6 mb-8">
+          <h2 className="text-xl font-semibold text-white mb-4">Statisztikáim</h2>
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <p className="text-3xl font-bold text-primary-400">{stats.totalMatches}</p>
+              <p className="text-sm text-gray-300">meccs</p>
+            </div>
+            <div className="bg-white/10 rounded-lg p-4 text-center">
+              <p className="text-3xl font-bold text-primary-400">{stats.organizedCount}</p>
+              <p className="text-sm text-gray-300">szervezett</p>
+            </div>
+          </div>
+          {Object.keys(stats.sportCounts).length > 0 && (
+            <div>
+              <p className="text-sm text-gray-400 mb-2">Sportágak:</p>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(stats.sportCounts)
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([sport, count]) => (
+                    <span key={sport} className="bg-white/10 text-gray-200 px-3 py-1.5 rounded-full text-sm">
+                      {SPORT_ICONS[sport] || ''} {sport}: {count}
+                    </span>
+                  ))}
+              </div>
+            </div>
+          )}
+          {stats.totalMatches === 0 && (
+            <p className="text-gray-400 text-sm">Még nem voltál meccsen. Csatlakozz eghez!</p>
+          )}
+        </div>
+      )}
+
+      <h2 className="text-xl font-semibold text-white mb-4">Profil szerkesztése</h2>
 
       {message && (
         <div

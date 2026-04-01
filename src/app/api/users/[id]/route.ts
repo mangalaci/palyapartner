@@ -28,7 +28,32 @@ export async function GET(
       return NextResponse.json({ error: 'Felhasználó nem található.' }, { status: 404 })
     }
 
-    return NextResponse.json(user)
+    // Statisztikák
+    const participations = await prisma.matchParticipant.findMany({
+      where: { userId: params.id, type: 'player' },
+      include: {
+        match: { select: { sport: true, date: true, organizerId: true } },
+      },
+    })
+
+    const now = new Date()
+    const pastMatches = participations.filter(p => new Date(p.match.date) < now)
+    const organizedCount = pastMatches.filter(p => p.match.organizerId === params.id).length
+
+    // Sportágankénti bontás
+    const sportCounts: Record<string, number> = {}
+    for (const p of pastMatches) {
+      sportCounts[p.match.sport] = (sportCounts[p.match.sport] || 0) + 1
+    }
+
+    return NextResponse.json({
+      ...user,
+      stats: {
+        totalMatches: pastMatches.length,
+        organizedCount,
+        sportCounts,
+      },
+    })
   } catch (error) {
     console.error('User fetch error:', error)
     return NextResponse.json({ error: 'Hiba történt.' }, { status: 500 })
