@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import SearchSection from '@/components/SearchSection'
 
 export default function Home() {
@@ -9,34 +8,18 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-field-dark via-field to-field-light opacity-90" />
 
-        {/* Dekorációs sport elemek — mobilon emoji, desktopon SVG labdák */}
-        <div className="absolute top-4 left-4 text-5xl opacity-80 rotate-[-15deg] select-none md:hidden">&#9917;</div>
-        <div className="hidden md:block absolute top-8 left-12 opacity-80 rotate-[-15deg] select-none">
-          <Image src="/images/soccer-ball.svg" alt="" width={90} height={90} />
-        </div>
-        <div className="absolute top-6 right-4 text-5xl opacity-80 rotate-[20deg] select-none md:hidden">&#127934;</div>
-        <div className="hidden md:block absolute top-10 right-12 opacity-80 rotate-[20deg] select-none">
-          <Image src="/images/soccer-ball.svg" alt="" width={90} height={90} />
-        </div>
-        <div className="absolute bottom-4 left-8 text-5xl opacity-80 rotate-[10deg] select-none md:hidden">&#127936;</div>
-        <div className="hidden md:block absolute bottom-8 left-20 opacity-80 rotate-[10deg] select-none">
-          <Image src="/images/soccer-ball.svg" alt="" width={90} height={90} />
-        </div>
-        <div className="absolute bottom-6 right-6 text-5xl opacity-80 rotate-[-10deg] select-none md:hidden">&#127954;</div>
-        <div className="hidden md:block absolute bottom-10 right-16 opacity-80 rotate-[-10deg] select-none">
-          <Image src="/images/soccer-ball.svg" alt="" width={90} height={90} />
-        </div>
-        <div className="hidden md:block absolute top-1/2 left-4 opacity-60 rotate-[-25deg] select-none">
-          <Image src="/images/soccer-ball.svg" alt="" width={70} height={70} />
-        </div>
-        <div className="hidden md:block absolute top-1/2 right-4 opacity-60 rotate-[15deg] select-none">
-          <Image src="/images/soccer-ball.svg" alt="" width={70} height={70} />
-        </div>
+        {/* Dekorációs sport emojik */}
+        <div className="absolute top-4 left-4 md:top-8 md:left-12 text-5xl md:text-7xl opacity-80 rotate-[-15deg] select-none">&#9917;</div>
+        <div className="absolute top-6 right-4 md:top-10 md:right-12 text-5xl md:text-7xl opacity-80 rotate-[20deg] select-none">&#127934;</div>
+        <div className="absolute bottom-4 left-8 md:bottom-8 md:left-20 text-5xl md:text-7xl opacity-80 rotate-[10deg] select-none">&#127936;</div>
+        <div className="absolute bottom-6 right-6 md:bottom-10 md:right-16 text-5xl md:text-7xl opacity-80 rotate-[-10deg] select-none">&#127954;</div>
+        <div className="hidden md:block absolute top-1/2 left-4 text-6xl opacity-60 rotate-[-25deg] select-none">&#127947;</div>
+        <div className="hidden md:block absolute top-1/2 right-4 text-6xl opacity-60 rotate-[15deg] select-none">&#9917;</div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center">
           <h1 className="text-4xl md:text-7xl text-white mb-6">
             Találd meg a tökéletes{' '}
-            <span className="text-primary-300">sportpartnered</span>
+            <span style={{ color: '#003d1a' }}>sportpartnered</span>
           </h1>
           <p className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto">
             Legyen szó teniszről, fociról vagy futásról, csatlakozz a közösséghez és

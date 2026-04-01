@@ -29,12 +29,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-10 items-center">
           <Link href="/" className="flex items-center">
-            <span className="text-white text-xl font-heading text-sport-logo">PÁLYA</span>
+            <span className="text-white text-xl font-heading">PÁLYA</span>
             <span className="text-primary-400 text-xl font-heading">PARTNER</span>
           </Link>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-5">
+          <div className="hidden md:flex items-center gap-5 font-heading">
             <Link
               href="/jatekosok"
               className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
