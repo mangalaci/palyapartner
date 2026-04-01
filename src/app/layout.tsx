@@ -15,6 +15,11 @@ export const metadata: Metadata = {
   title: 'PályaPartner - Találd meg a tökéletes sportpartnered',
   description: 'Találj sportpartnert a közeledben. Tenisz, futás, foci, padel és más sportokhoz.',
   manifest: '/manifest.json',
+  icons: {
+    icon: '/icons/icon-192.png',
+    shortcut: '/icons/icon-192.png',
+    apple: '/icons/icon-192.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
