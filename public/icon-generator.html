@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PályaPartner Ikon Generátor</title>
+  <style>
+    @font-face {
+      font-family: 'Chilidog PB';
+      src: url('/fonts/ChilidogPB-Regular.woff2') format('woff2'),
+           url('/fonts/ChilidogPB-Regular.woff') format('woff'),
+           url('/fonts/ChilidogPB-Regular.ttf') format('truetype');
+    }
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; background: #f0f0f0; }
+    canvas { border: 1px solid #ccc; margin: 10px; }
+    button { padding: 12px 24px; font-size: 16px; margin: 10px; cursor: pointer; background: #00A651; color: white; border: none; border-radius: 8px; }
+    button:hover { background: #008C44; }
+    h1 { color: #333; }
+    .preview { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
+    .preview div { text-align: center; }
+    .preview p { margin-top: 8px; color: #666; }
+    /* Preload font */
+    .font-preload { font-family: 'Chilidog PB'; position: absolute; left: -9999px; }
+  </style>
+</head>
+<body>
+  <span class="font-preload">PP</span>
+  <h1>PályaPartner Ikon Generátor</h1>
+  <p>Kattints a gombokra a letöltéshez:</p>
+
+  <div class="preview">
+    <div>
+      <canvas id="c512" width="512" height="512"></canvas>
+      <p>512x512</p>
+      <button onclick="download('c512', 'icon-512.png')">Letöltés (512)</button>
+    </div>
+    <div>
+      <canvas id="c192" width="192" height="192"></canvas>
+      <p>192x192</p>
+      <button onclick="download('c192', 'icon-192.png')">Letöltés (192)</button>
+    </div>
+  </div>
+
+  <script>
+    function drawIcon(canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      const s = canvas.width;
+
+      // Background: rounded rectangle (green)
+      const radius = s * 0.18;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(s - radius, 0);
+      ctx.quadraticCurveTo(s, 0, s, radius);
+      ctx.lineTo(s, s - radius);
+      ctx.quadraticCurveTo(s, s, s - radius, s);
+      ctx.lineTo(radius, s);
+      ctx.quadraticCurveTo(0, s, 0, s - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+
+      // Gradient background
+      const grad = ctx.createLinearGradient(0, 0, s, s);
+      grad.addColorStop(0, '#00A651');
+      grad.addColorStop(1, '#007338');
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // First P - white
+      const fontSize = s * 0.52;
+      ctx.font = `${fontSize}px 'Chilidog PB'`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText('P', s * 0.35, s * 0.48);
+
+      // Second P - dark green
+      ctx.fillStyle = '#003d1a';
+      ctx.fillText('P', s * 0.65, s * 0.48);
+    }
+
+    function download(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    // Wait for font to load then draw
+    document.fonts.ready.then(() => {
+      setTimeout(() => {
+        drawIcon('c512');
+        drawIcon('c192');
+      }, 200);
+    });
+  </script>
+</body>
+</html>
