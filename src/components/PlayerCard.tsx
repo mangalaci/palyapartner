@@ -43,8 +43,8 @@ export default function PlayerCard({
   const dots = getLevelDots(mainLevel)
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-5 hover:shadow-xl transition-shadow">
-      <div className="flex items-center gap-3 mb-3">
+    <div className="bg-white rounded-xl shadow-lg p-5 hover:shadow-xl transition-shadow overflow-hidden">
+      <div className="flex items-center gap-3 mb-3 min-w-0">
         <div className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white text-lg font-semibold flex-shrink-0">
           {getInitial(nickname)}
         </div>
