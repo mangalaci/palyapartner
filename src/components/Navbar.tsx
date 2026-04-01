@@ -30,7 +30,7 @@ export default function Navbar() {
         <div className="flex justify-between h-10 items-center">
           <Link href="/" className="flex items-center">
             <span className="text-white text-xl font-heading">PÁLYA</span>
-            <span className="text-primary-400 text-xl font-heading">PARTNER</span>
+            <span className="text-xl font-heading" style={{ color: '#003d1a' }}>PARTNER</span>
           </Link>
 
           {/* Desktop menu */}
@@ -125,7 +125,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden pb-3 space-y-1">
+          <div className="md:hidden pb-3 space-y-1 font-heading">
             <Link href="/jatekosok" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
               Játékosok
             </Link>
