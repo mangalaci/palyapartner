@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { sendMatchNotification } from '@/lib/notifications'
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
@@ -60,6 +61,41 @@ export async function POST(req: Request, { params }: { params: { id: string } })
         where: { id: params.id },
         data: { status: newStatus },
       })
+    }
+
+    // Értesítés a szervezőnek
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { nickname: true },
+    })
+    const nickname = user?.nickname || 'Valaki'
+
+    if (type === 'player') {
+      await sendMatchNotification(
+        session.user.id,
+        match.organizerId,
+        `${nickname} csatlakozott a meccsedhez: ${match.sport}, ${match.locationName}`
+      )
+    } else {
+      await sendMatchNotification(
+        session.user.id,
+        match.organizerId,
+        `${nickname} feliratkozott a várólistára: ${match.sport}, ${match.locationName}`
+      )
+    }
+
+    // Ha összejött a minimum létszám, értesítés mindenkinek
+    if (newStatus === 'confirmed' && match.status === 'open') {
+      const allParticipants = await prisma.matchParticipant.findMany({
+        where: { matchId: params.id, type: 'player' },
+      })
+      for (const p of allParticipants) {
+        await sendMatchNotification(
+          match.organizerId,
+          p.userId,
+          `Összejött a meccs! ${match.sport}, ${match.locationName}`
+        )
+      }
     }
 
     return NextResponse.json({ type, message: type === 'waitlist' ? 'Várólistára kerültél.' : 'Csatlakoztál!' })

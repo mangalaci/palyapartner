@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { sendMatchNotification } from '@/lib/notifications'
 
 export async function POST(req: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions)
@@ -31,9 +32,23 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       return NextResponse.json({ error: 'Nem vagy résztvevője ennek a meccsnek.' }, { status: 400 })
     }
 
+    // Felhasználó neve az értesítéshez
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { nickname: true },
+    })
+    const nickname = user?.nickname || 'Valaki'
+
     await prisma.matchParticipant.delete({
       where: { id: participant.id },
     })
+
+    // Értesítés a szervezőnek
+    await sendMatchNotification(
+      session.user.id,
+      match.organizerId,
+      `${nickname} kilépett a meccsedből: ${match.sport}, ${match.locationName}`
+    )
 
     // Ha játékos lépett ki, várólistáról előléptetés
     if (participant.type === 'player') {
@@ -47,6 +62,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
           where: { id: nextWaiting.id },
           data: { type: 'player' },
         })
+
+        // Értesítés a várólistáról előléptetett játékosnak
+        await sendMatchNotification(
+          match.organizerId,
+          nextWaiting.userId,
+          `Előléptél a várólistáról! Résztvevő lettél: ${match.sport}, ${match.locationName}`
+        )
       }
 
       // Státusz újraszámolás
