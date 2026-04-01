@@ -2,15 +2,17 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import Script from 'next/script'
+import { CITY_COORDS } from '@/lib/types'
 
 interface MapPickerProps {
   lat?: number | null
   lng?: number | null
+  city?: string
   onLocationSelect: (lat: number, lng: number) => void
   readOnly?: boolean
 }
 
-export default function MapPicker({ lat, lng, onLocationSelect, readOnly }: MapPickerProps) {
+export default function MapPicker({ lat, lng, city, onLocationSelect, readOnly }: MapPickerProps) {
   const mapRef = useRef<HTMLDivElement>(null)
   const mapInstanceRef = useRef<any>(null)
   const markerRef = useRef<any>(null)
@@ -26,8 +28,9 @@ export default function MapPicker({ lat, lng, onLocationSelect, readOnly }: MapP
     const L = (window as any).L
     if (!L) return
 
-    const centerLat = lat || 47.4979
-    const centerLng = lng || 19.0402
+    const cityCenter = city ? CITY_COORDS[city] : null
+    const centerLat = lat || cityCenter?.lat || 47.4979
+    const centerLng = lng || cityCenter?.lng || 19.0402
 
     const map = L.map(mapRef.current).setView([centerLat, centerLng], 13)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -54,7 +57,18 @@ export default function MapPicker({ lat, lng, onLocationSelect, readOnly }: MapP
 
     // Fix tile rendering after container becomes visible
     setTimeout(() => map.invalidateSize(), 100)
-  }, [lat, lng, readOnly])
+  }, [lat, lng, readOnly, city])
+
+  // Pan to new city when city changes
+  useEffect(() => {
+    if (!mapInstanceRef.current || !city) return
+    const coords = CITY_COORDS[city]
+    if (!coords) return
+    // Only pan if there's no pin placed yet
+    if (!markerRef.current) {
+      mapInstanceRef.current.setView([coords.lat, coords.lng], 13)
+    }
+  }, [city])
 
   // Initialize when Leaflet is ready
   useEffect(() => {

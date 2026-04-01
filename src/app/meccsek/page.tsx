@@ -295,10 +295,6 @@ export default function MatchesPage() {
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg outline-none bg-white text-gray-900 placeholder:text-gray-400"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">Pontos helyszín a térképen</label>
-              <MapPicker lat={lat} lng={lng} onLocationSelect={(newLat, newLng) => { setLat(newLat); setLng(newLng) }} />
-            </div>
             <CitySelect
               city={city}
               districts={formDistricts}
@@ -306,6 +302,10 @@ export default function MatchesPage() {
               onDistrictsChange={setFormDistricts}
               required
             />
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Pontos helyszín a térképen</label>
+              <MapPicker lat={lat} lng={lng} city={city} onLocationSelect={(newLat, newLng) => { setLat(newLat); setLng(newLng) }} />
+            </div>
             <textarea
               placeholder="Megjegyzés (opcionális, pl. Hozzatok vizet!)"
               value={description}
