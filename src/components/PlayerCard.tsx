@@ -72,7 +72,7 @@ export default function PlayerCard({
       </div>
 
       <div className="flex flex-wrap gap-1.5 mb-3">
-        {sports.map((s) => (
+        {sports.slice(0, 3).map((s) => (
           <span
             key={s.sport}
             className="inline-flex items-center gap-1 bg-primary-50 text-primary-800 text-xs px-2 py-1 rounded-full border border-primary-200"
@@ -80,6 +80,11 @@ export default function PlayerCard({
             {SPORT_ICONS[s.sport] || ''} {s.sport}
           </span>
         ))}
+        {sports.length > 3 && (
+          <span className="inline-flex items-center bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full border border-gray-200">
+            +{sports.length - 3}
+          </span>
+        )}
       </div>
 
       <div className="flex gap-2">

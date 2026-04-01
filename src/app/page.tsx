@@ -51,28 +51,28 @@ export default function Home() {
         <div className="grid md:grid-cols-3 gap-8">
           <div className="text-center">
             <div className="w-16 h-16 bg-primary-500/20 border border-primary-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl text-primary-400 font-heading font-bold">1</span>
+              <span className="text-3xl text-white font-heading font-bold">1</span>
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Regisztrálj</h3>
-            <p className="text-gray-400">
+            <p className="text-gray-200">
               Hozd létre a profilod, add meg a sportjaidat és a szinted.
             </p>
           </div>
           <div className="text-center">
             <div className="w-16 h-16 bg-primary-500/20 border border-primary-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl text-primary-400 font-heading font-bold">2</span>
+              <span className="text-3xl text-white font-heading font-bold">2</span>
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Keress partnert</h3>
-            <p className="text-gray-400">
+            <p className="text-gray-200">
               Böngészd a közeli játékosokat vagy nézd a játékkéréseket.
             </p>
           </div>
           <div className="text-center">
             <div className="w-16 h-16 bg-primary-500/20 border border-primary-500/30 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-3xl text-primary-400 font-heading font-bold">3</span>
+              <span className="text-3xl text-white font-heading font-bold">3</span>
             </div>
             <h3 className="text-xl font-semibold text-white mb-2">Sportolj!</h3>
-            <p className="text-gray-400">
+            <p className="text-gray-200">
               Küldj üzenetet és egyeztessétek a részleteket.
             </p>
           </div>
