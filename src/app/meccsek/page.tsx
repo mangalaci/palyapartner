@@ -206,7 +206,7 @@ export default function MatchesPage() {
                     prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d]
                   )
                 }}
-                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                className={`px-3 py-2 rounded text-xs font-medium transition-colors ${
                   filterDistricts.includes(d)
                     ? 'bg-primary-500 text-white'
                     : 'bg-white text-gray-700 border border-gray-200'

@@ -241,7 +241,7 @@ export default function MatchDetailPage() {
                 <button
                   onClick={handleLeave}
                   disabled={actionLoading}
-                  className="w-full border border-red-300 text-red-600 hover:bg-red-50 px-6 py-2 rounded-lg font-medium transition-colors disabled:opacity-50"
+                  className="w-full border border-red-300 text-red-600 hover:bg-red-50 px-6 py-3 rounded-lg font-medium transition-colors disabled:opacity-50"
                 >
                   {actionLoading ? 'Kérlek várj...' : 'Kilépek'}
                 </button>
@@ -252,7 +252,7 @@ export default function MatchDetailPage() {
           {session && !isOrganizer && (
             <Link
               href={`/uzenetek/${match.organizerId}`}
-              className="block text-center border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-2 rounded-lg font-medium transition-colors"
+              className="block text-center border border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-lg font-medium transition-colors"
             >
               Üzenet a szervezőnek
             </Link>

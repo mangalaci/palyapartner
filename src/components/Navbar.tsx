@@ -105,11 +105,11 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-1.5"
+            className="md:hidden p-2.5"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <svg
-              className="h-5 w-5 text-gray-200"
+              className="h-6 w-6 text-gray-200"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
