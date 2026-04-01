@@ -132,7 +132,7 @@ export default function ProfilePage() {
             </div>
           )}
           {stats.totalMatches === 0 && (
-            <p className="text-gray-400 text-sm">Még nem voltál meccsen. Csatlakozz eghez!</p>
+            <p className="text-gray-400 text-sm">Még nem voltál meccsen. Csatlakozz egyhez!</p>
           )}
         </div>
       )}
