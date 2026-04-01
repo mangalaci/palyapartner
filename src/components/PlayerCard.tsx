@@ -17,16 +17,16 @@ function getInitial(name: string) {
   return name.charAt(0).toUpperCase()
 }
 
-function getLevelColor(level: string) {
+function getLevelDots(level: string) {
   switch (level) {
     case 'Kezdő':
-      return 'text-green-700 bg-green-100 border-green-300'
+      return { filled: 1, color: 'bg-green-500' }
     case 'Középhaladó':
-      return 'text-blue-700 bg-blue-100 border-blue-300'
+      return { filled: 2, color: 'bg-blue-500' }
     case 'Haladó':
-      return 'text-red-700 bg-red-100 border-red-300'
+      return { filled: 3, color: 'bg-red-500' }
     default:
-      return 'text-gray-700 bg-gray-100 border-gray-300'
+      return { filled: 0, color: 'bg-gray-400' }
   }
 }
 
@@ -40,50 +40,46 @@ export default function PlayerCard({
   isLoggedIn,
 }: PlayerCardProps) {
   const mainLevel = sports.length > 0 ? sports[0].level : ''
+  const dots = getLevelDots(mainLevel)
 
   return (
-    <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-      <div className="flex items-center gap-4 mb-4">
-        <div className="w-14 h-14 rounded-full bg-primary-500 flex items-center justify-center text-white text-xl font-semibold">
+    <div className="bg-white rounded-xl shadow-lg p-5 hover:shadow-xl transition-shadow">
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white text-lg font-semibold flex-shrink-0">
           {getInitial(nickname)}
         </div>
-        <div>
-          <h3 className="font-semibold text-lg text-gray-900">
+        <div className="min-w-0">
+          <h3 className="font-semibold text-gray-900 truncate">
             {isLoggedIn ? nickname : '***'}
           </h3>
-          <p className="text-gray-500 text-sm flex items-center gap-1">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
+          <p className="text-gray-500 text-xs truncate">
             {city}{districts && districts.length > 0 ? ` (${districts.join(', ')})` : ''}
           </p>
         </div>
-      </div>
-
-      <div className="mb-3">
-        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
-          Sportok
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {sports.map((s) => (
-            <span
-              key={s.sport}
-              className="inline-flex items-center gap-1 bg-primary-100 text-primary-800 text-sm px-2.5 py-1 rounded-full border border-primary-300"
-            >
-              <span>{SPORT_ICONS[s.sport] || '🏅'}</span> {s.sport}
-            </span>
-          ))}
+        <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+          {/* Szint pöttyök */}
+          <div className="flex gap-1" title={mainLevel}>
+            {[1, 2, 3].map((n) => (
+              <div
+                key={n}
+                className={`w-2.5 h-2.5 rounded-full ${n <= dots.filled ? dots.color : 'bg-gray-200'}`}
+              />
+            ))}
+          </div>
+          {/* Kor */}
+          <span className="text-xs text-gray-400">{ageGroup}</span>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-4">
-        <span className={`text-sm px-2.5 py-1 rounded-full border ${getLevelColor(mainLevel)}`}>
-          Szint: {mainLevel}
-        </span>
-        <span className="text-sm px-2.5 py-1 rounded-full border border-gray-300 text-gray-600 bg-gray-100">
-          Kor: {ageGroup}
-        </span>
+      <div className="flex flex-wrap gap-1.5 mb-3">
+        {sports.map((s) => (
+          <span
+            key={s.sport}
+            className="inline-flex items-center gap-1 bg-primary-50 text-primary-800 text-xs px-2 py-1 rounded-full border border-primary-200"
+          >
+            {SPORT_ICONS[s.sport] || ''} {s.sport}
+          </span>
+        ))}
       </div>
 
       <div className="flex gap-2">
