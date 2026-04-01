@@ -1,65 +1,102 @@
 'use client'
 
-import { useState, useCallback } from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api'
-
-const mapContainerStyle = {
-  width: '100%',
-  height: '250px',
-  borderRadius: '8px',
-}
-
-// Budapest központ alapértelmezettként
-const defaultCenter = { lat: 47.4979, lng: 19.0402 }
+import { useEffect, useRef, useState, useCallback } from 'react'
+import Script from 'next/script'
 
 interface MapPickerProps {
   lat?: number | null
   lng?: number | null
   onLocationSelect: (lat: number, lng: number) => void
+  readOnly?: boolean
 }
 
-export default function MapPicker({ lat, lng, onLocationSelect }: MapPickerProps) {
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
-  })
+export default function MapPicker({ lat, lng, onLocationSelect, readOnly }: MapPickerProps) {
+  const mapRef = useRef<HTMLDivElement>(null)
+  const mapInstanceRef = useRef<any>(null)
+  const markerRef = useRef<any>(null)
+  const callbackRef = useRef(onLocationSelect)
+  const [leafletReady, setLeafletReady] = useState(false)
 
-  const [marker, setMarker] = useState<{ lat: number; lng: number } | null>(
-    lat && lng ? { lat, lng } : null
-  )
+  // Keep callback ref up to date without re-initializing map
+  callbackRef.current = onLocationSelect
 
-  const center = marker || defaultCenter
+  const initMap = useCallback(() => {
+    if (!mapRef.current || mapInstanceRef.current) return
 
-  const handleClick = useCallback((e: google.maps.MapMouseEvent) => {
-    if (e.latLng) {
-      const newLat = e.latLng.lat()
-      const newLng = e.latLng.lng()
-      setMarker({ lat: newLat, lng: newLng })
-      onLocationSelect(newLat, newLng)
+    const L = (window as any).L
+    if (!L) return
+
+    const centerLat = lat || 47.4979
+    const centerLng = lng || 19.0402
+
+    const map = L.map(mapRef.current).setView([centerLat, centerLng], 13)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+    }).addTo(map)
+
+    if (lat && lng) {
+      markerRef.current = L.marker([lat, lng]).addTo(map)
     }
-  }, [onLocationSelect])
 
-  if (!isLoaded) {
-    return <div className="w-full h-[250px] bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">Térkép betöltése...</div>
-  }
+    if (!readOnly) {
+      map.on('click', (e: any) => {
+        const { lat: newLat, lng: newLng } = e.latlng
+        if (markerRef.current) {
+          markerRef.current.setLatLng([newLat, newLng])
+        } else {
+          markerRef.current = L.marker([newLat, newLng]).addTo(map)
+        }
+        callbackRef.current(newLat, newLng)
+      })
+    }
+
+    mapInstanceRef.current = map
+
+    // Fix tile rendering after container becomes visible
+    setTimeout(() => map.invalidateSize(), 100)
+  }, [lat, lng, readOnly])
+
+  // Initialize when Leaflet is ready
+  useEffect(() => {
+    if (leafletReady) {
+      initMap()
+    }
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove()
+        mapInstanceRef.current = null
+        markerRef.current = null
+      }
+    }
+  }, [leafletReady, initMap])
+
+  // Check if Leaflet is already loaded (e.g. navigating between pages)
+  useEffect(() => {
+    if ((window as any).L) {
+      setLeafletReady(true)
+    }
+  }, [])
 
   return (
     <div>
-      <GoogleMap
-        mapContainerStyle={mapContainerStyle}
-        center={center}
-        zoom={13}
-        onClick={handleClick}
-        options={{
-          streetViewControl: false,
-          mapTypeControl: false,
-          fullscreenControl: false,
-        }}
-      >
-        {marker && <Marker position={marker} />}
-      </GoogleMap>
-      <p className="text-xs text-gray-400 mt-1">
-        {marker ? '📍 Helyszín kiválasztva — kattints máshova a módosításhoz' : 'Kattints a térképre a pontos helyszín megjelöléséhez'}
-      </p>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+      <Script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        strategy="afterInteractive"
+        onLoad={() => setLeafletReady(true)}
+      />
+      <div
+        ref={mapRef}
+        style={{ width: '100%', height: '250px', borderRadius: '8px', zIndex: 0 }}
+      />
+      {!readOnly && (
+        <p className="text-xs text-gray-400 mt-1">
+          {lat && lng
+            ? 'Helyszín kiválasztva — kattints máshova a módosításhoz'
+            : 'Kattints a térképre a pontos helyszín megjelöléséhez'}
+        </p>
+      )}
     </div>
   )
 }

@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { SPORT_ICONS } from '@/lib/types'
+import MapPicker from '@/components/MapPicker'
 
 interface Participant {
   id: string
@@ -144,22 +145,16 @@ export default function MatchDetailPage() {
 
         {/* Térkép */}
         {match.lat && match.lng && (
-          <div className="border-b border-gray-100">
-            <iframe
-              width="100%"
-              height="250"
-              style={{ border: 0 }}
-              loading="lazy"
-              src={`https://www.google.com/maps/embed/v1/place?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || ''}&q=${match.lat},${match.lng}&zoom=16`}
-            />
-            <div className="p-3">
+          <div className="border-b border-gray-100 p-4">
+            <MapPicker lat={match.lat} lng={match.lng} onLocationSelect={() => {}} readOnly />
+            <div className="mt-2">
               <a
                 href={`https://www.google.com/maps/dir/?api=1&destination=${match.lat},${match.lng}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary-600 hover:text-primary-700 font-medium text-sm"
               >
-                📍 Navigálj ide!
+                Navigálj ide!
               </a>
             </div>
           </div>
