@@ -56,6 +56,12 @@ export default function Navbar() {
             {session ? (
               <>
                 <Link
+                  href="/meccseim"
+                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+                >
+                  Meccseim
+                </Link>
+                <Link
                   href="/uzenetek"
                   className="text-gray-200 hover:text-white font-medium text-sm transition-colors relative"
                 >
@@ -131,6 +137,9 @@ export default function Navbar() {
             </Link>
             {session ? (
               <>
+                <Link href="/meccseim" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+                  Meccseim
+                </Link>
                 <Link href="/uzenetek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
                   Üzenetek
                   {unreadCount > 0 && (
