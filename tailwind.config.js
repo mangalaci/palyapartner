@@ -28,7 +28,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        heading: ['Luckiest Guy', 'cursive'],
+        heading: ['Chilidog PB', 'cursive'],
       },
     },
   },

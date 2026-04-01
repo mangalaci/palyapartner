@@ -1,4 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@font-face {
+  font-family: 'Chilidog PB';
+  src: url('/fonts/ChilidogPB-Regular.woff2') format('woff2'),
+       url('/fonts/ChilidogPB-Regular.woff') format('woff'),
+       url('/fonts/ChilidogPB-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -9,7 +17,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Luckiest Guy', cursive;
+  font-family: 'Chilidog PB', cursive;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.02em;
