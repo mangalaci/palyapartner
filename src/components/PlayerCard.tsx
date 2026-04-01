@@ -39,9 +39,6 @@ export default function PlayerCard({
   ageGroup,
   isLoggedIn,
 }: PlayerCardProps) {
-  const mainLevel = sports.length > 0 ? sports[0].level : ''
-  const dots = getLevelDots(mainLevel)
-
   return (
     <div className="bg-white rounded-xl shadow-lg p-5 hover:shadow-xl transition-shadow overflow-hidden">
       <div className="flex items-center gap-3 mb-3 min-w-0">
@@ -56,30 +53,30 @@ export default function PlayerCard({
             {city}{districts && districts.length > 0 ? ` (${districts.join(', ')})` : ''}
           </p>
         </div>
-        <div className="ml-auto flex items-center gap-2 flex-shrink-0">
-          {/* Szint pöttyök */}
-          <div className="flex gap-1" title={mainLevel}>
-            {[1, 2, 3].map((n) => (
-              <div
-                key={n}
-                className={`w-2.5 h-2.5 rounded-full ${n <= dots.filled ? dots.color : 'bg-gray-200'}`}
-              />
-            ))}
-          </div>
-          {/* Kor */}
-          <span className="text-xs text-gray-400">{ageGroup}</span>
-        </div>
+        <span className="ml-auto text-xs text-gray-400 flex-shrink-0">{ageGroup}</span>
       </div>
 
       <div className="flex flex-wrap gap-1.5 mb-3">
-        {sports.slice(0, 3).map((s) => (
-          <span
-            key={s.sport}
-            className="inline-flex items-center gap-1 bg-primary-50 text-primary-800 text-xs px-2 py-1 rounded-full border border-primary-200"
-          >
-            {SPORT_ICONS[s.sport] || ''} {s.sport}
-          </span>
-        ))}
+        {sports.slice(0, 3).map((s) => {
+          const dots = getLevelDots(s.level)
+          return (
+            <span
+              key={s.sport}
+              className="inline-flex items-center gap-1 bg-primary-50 text-primary-800 text-xs px-2 py-1 rounded-full border border-primary-200"
+              title={`${s.sport} — ${s.level}`}
+            >
+              {SPORT_ICONS[s.sport] || ''} {s.sport}
+              <span className="inline-flex gap-0.5 ml-0.5">
+                {[1, 2, 3].map((n) => (
+                  <span
+                    key={n}
+                    className={`w-1.5 h-1.5 rounded-full inline-block ${n <= dots.filled ? dots.color : 'bg-gray-300'}`}
+                  />
+                ))}
+              </span>
+            </span>
+          )
+        })}
         {sports.length > 3 && (
           <span className="inline-flex items-center bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full border border-gray-200">
             +{sports.length - 3}
