@@ -19,6 +19,8 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [stats, setStats] = useState<{ totalMatches: number; organizedCount: number; sportCounts: Record<string, number> } | null>(null)
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -37,6 +39,7 @@ export default function ProfilePage() {
           setBio(data.bio || '')
           setSports(data.sports || [])
           setStats(data.stats || null)
+          setPhotoUrl(data.photoUrl || null)
           setLoading(false)
         })
         .catch(() => setLoading(false))
@@ -136,6 +139,57 @@ export default function ProfilePage() {
           )}
         </div>
       )}
+
+      {/* Profilkép */}
+      <div className="bg-white/10 rounded-xl p-6 mb-8">
+        <h2 className="text-xl font-semibold text-white mb-4">Profilkép</h2>
+        <div className="flex items-center gap-6">
+          <div className="w-24 h-24 rounded-full overflow-hidden bg-primary-500 flex items-center justify-center text-white text-3xl font-semibold flex-shrink-0">
+            {photoUrl ? (
+              <img src={photoUrl} alt="Profilkép" className="w-full h-full object-cover" />
+            ) : (
+              nickname.charAt(0).toUpperCase() || '?'
+            )}
+          </div>
+          <div>
+            <label className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer inline-block">
+              {uploading ? 'Feltöltés...' : 'Kép választása'}
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                disabled={uploading}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (!file) return
+                  setUploading(true)
+                  setMessage('')
+                  const formData = new FormData()
+                  formData.append('file', file)
+                  try {
+                    const res = await fetch('/api/upload', {
+                      method: 'POST',
+                      body: formData,
+                    })
+                    const data = await res.json()
+                    if (res.ok) {
+                      setPhotoUrl(data.photoUrl)
+                      setMessage('Profilkép feltöltve!')
+                    } else {
+                      setMessage(data.error || 'Hiba történt.')
+                    }
+                  } catch {
+                    setMessage('Hiba történt a feltöltés során.')
+                  } finally {
+                    setUploading(false)
+                  }
+                }}
+              />
+            </label>
+            <p className="text-gray-400 text-sm mt-2">Max 5MB, JPG vagy PNG</p>
+          </div>
+        </div>
+      </div>
 
       <h2 className="text-xl font-semibold text-white mb-4">Profil szerkesztése</h2>
 

@@ -10,6 +10,7 @@ interface PlayerCardProps {
   districts?: string[]
   sports: { sport: string; level: string }[]
   ageGroup: string
+  photoUrl?: string | null
   isLoggedIn: boolean
 }
 
@@ -37,13 +38,18 @@ export default function PlayerCard({
   districts,
   sports,
   ageGroup,
+  photoUrl,
   isLoggedIn,
 }: PlayerCardProps) {
   return (
     <div className="bg-white rounded-xl shadow-lg p-5 hover:shadow-xl transition-shadow overflow-hidden">
       <div className="flex items-center gap-3 mb-3 min-w-0">
-        <div className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white text-lg font-semibold flex-shrink-0">
-          {getInitial(nickname)}
+        <div className="w-12 h-12 rounded-full bg-primary-500 flex items-center justify-center text-white text-lg font-semibold flex-shrink-0 overflow-hidden">
+          {photoUrl ? (
+            <img src={photoUrl} alt="" className="w-full h-full object-cover" />
+          ) : (
+            getInitial(nickname)
+          )}
         </div>
         <div className="min-w-0">
           <h3 className="font-semibold text-gray-900 truncate">

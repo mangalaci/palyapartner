@@ -17,6 +17,7 @@ export async function GET(
         districts: true,
         ageGroup: true,
         bio: true,
+        photoUrl: true,
         sports: {
           select: { sport: true, level: true },
         },

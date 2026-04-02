@@ -28,6 +28,7 @@ export async function GET(req: Request) {
         city: true,
         districts: true,
         ageGroup: true,
+        photoUrl: true,
         sports: {
           select: { sport: true, level: true },
         },
