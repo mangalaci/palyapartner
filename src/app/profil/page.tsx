@@ -104,12 +104,12 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-white mb-8">Profilom</h1>
+      <h1 className="text-3xl font-bold mb-8" style={{ color: '#003d1a' }}>Profilom</h1>
 
       {/* Statisztikák */}
       {stats && (
         <div className="bg-white/10 rounded-xl p-6 mb-8">
-          <h2 className="text-xl font-semibold text-white mb-4">Statisztikáim</h2>
+          <h2 className="text-xl font-semibold mb-4" style={{ color: '#003d1a' }}>Statisztikáim</h2>
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="bg-white/10 rounded-lg p-4 text-center">
               <p className="text-3xl font-bold text-primary-400">{stats.totalMatches}</p>
@@ -142,7 +142,7 @@ export default function ProfilePage() {
 
       {/* Profilkép */}
       <div className="bg-white/10 rounded-xl p-6 mb-8">
-        <h2 className="text-xl font-semibold text-white mb-4">Profilkép</h2>
+        <h2 className="text-xl font-semibold mb-4" style={{ color: '#003d1a' }}>Profilkép</h2>
         <div className="flex items-center gap-6">
           <div className="w-24 h-24 rounded-full overflow-hidden bg-primary-500 flex items-center justify-center text-white text-3xl font-semibold flex-shrink-0">
             {photoUrl ? (
@@ -191,7 +191,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <h2 className="text-xl font-semibold text-white mb-4">Profil szerkesztése</h2>
+      <h2 className="text-xl font-semibold mb-4" style={{ color: '#003d1a' }}>Profil szerkesztése</h2>
 
       {message && (
         <div

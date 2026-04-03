@@ -46,7 +46,7 @@ export default function MessagesPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-white mb-6">Üzenetek</h1>
+      <h1 className="text-3xl font-bold mb-6" style={{ color: '#003d1a' }}>Üzenetek</h1>
 
       {conversations.length > 0 ? (
         <div className="space-y-2">
