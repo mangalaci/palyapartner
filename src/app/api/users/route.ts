@@ -15,12 +15,14 @@ export async function GET(req: Request) {
         ...(district && {
           districts: { has: district },
         }),
-        ...(sport && {
-          sports: { some: { sport } },
-        }),
-        ...(level && {
-          sports: { some: { level } },
-        }),
+        ...(sport && level
+          ? { sports: { some: { sport, level } } }
+          : sport
+            ? { sports: { some: { sport } } }
+            : level
+              ? { sports: { some: { level } } }
+              : {}
+        ),
       },
       select: {
         id: true,
