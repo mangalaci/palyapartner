@@ -1,0 +1,212 @@
+================================================================================
+     PÁLYAPARTNER — PÁRBESZÉD / MUNKANAPLÓ
+     2026-04-02
+================================================================================
+
+Előző napi munkanapló: uzleti-validacio-parbeszed-2026-04-01.txt
+
+
+================================================================================
+1. SEO OPTIMALIZÁCIÓ
+================================================================================
+
+MEGVALÓSÍTVA:
+  - Globális meta tagek (layout.tsx):
+    - Title template: "%s | PályaPartner"
+    - Description: "Ingyenes sportpartner kereső alkalmazás..."
+    - Open Graph tagek (Facebook/LinkedIn megosztáshoz)
+    - Twitter card
+    - Kulcsszavak: sportpartner, teniszpartner, focipartner, padel partner, stb.
+    - Canonical URL: palyapartner.hu
+
+  - Sitemap (src/app/sitemap.ts):
+    - Automatikusan generálódik /sitemap.xml-re
+    - Főoldal, játékosok, meccsek, játékkérések, regisztráció, bejelentkezés
+
+  - Robots.txt (src/app/robots.ts):
+    - Privát oldalak letiltva: /api/, /profil, /uzenetek, /meccseim
+    - Sitemap hivatkozás
+
+  - Oldalankénti meta tagek (layout.tsx fájlok):
+    - /jatekosok: "Sportpartner keresés — játékosok böngészése"
+    - /meccsek: "Meccsek — csatlakozz sportmeccsekhez"
+    - /jatekeresek: "Játékkérések — ki keres sportpartnert?"
+    - /regisztracio: "Regisztráció — csatlakozz a PályaPartnerhez"
+    - /bejelentkezes: "Bejelentkezés"
+
+  - Dinamikus OG kép (src/app/opengraph-image.tsx):
+    - Next.js ImageResponse-szal generálódik szerveren
+    - Zöld gradiens háttér, PÁLYAPARTNER logó Chilidog PB fonttal
+    - Sport badge-ek: Tenisz, Foci, Padel, Tollaslabda, Kosár
+    - palyapartner.hu URL alul
+
+DÖNTÉS AZ "INGYENES" SZÓRÓL:
+  - Az "ingyenes" szó CSAK a meta description-ben és SEO kulcsszavakban szerepel
+  - A felületen NEM hangsúlyozzuk, mert:
+    - Gyanút kelthet ("ha hangsúlyozzák, biztos nem lesz az sokáig")
+    - A felhasználó számára természetes, hogy egy ilyen app ingyenes
+  - Helyette: "Csatlakozz most!" maradt (nem "Csatlakozz ingyen!")
+
+
+================================================================================
+2. FACEBOOK / LINKEDIN / TWITTER CRAWLER TESZT
+================================================================================
+
+PROBLÉMA: Facebook Sharing Debugger 403-at ad a palyapartner.hu-ra.
+
+VIZSGÁLAT:
+  curl tesztek user agent szimulációval:
+    facebookexternalhit → palyapartner.vercel.app → 200 OK
+    facebookexternalhit → palyapartner.hu → 307 redirect → www → 200 OK
+    Googlebot → 200 OK
+    LinkedInBot → 200 OK
+    Twitterbot → 200 OK
+
+  De a Facebook tényleges crawlere (nem curl) 403-at kap minden URL-re,
+  beleértve a vercel.app direkt URL-t is.
+
+EREDMÉNY:
+  - Google SEO: MŰKÖDIK
+  - LinkedIn megosztás: MŰKÖDIK
+  - Twitter megosztás: MŰKÖDIK
+  - Facebook megosztás: NEM MŰKÖDIK (Vercel Hobby plan korlátozás)
+
+MEGOLDÁS KÉSŐBB:
+  Cloudflare DNS átállás (ingyenes) megoldaná a Facebook problémát is.
+  Nem sürgős — a Google az organikus forgalom forrása.
+
+
+================================================================================
+3. CLOUDFLARE ELEMZÉS
+================================================================================
+
+A Cloudflare két problémát oldana meg egyszerre:
+  1. CDN/DNS → Facebook crawler átjut
+  2. R2 tárolás → képtárolás (10GB ingyen)
+
+DE: a Cloudflare NEM hosting — kiegészítő szolgáltatás.
+  - Vercel továbbra is futtatja az appot (konyha)
+  - Cloudflare eléáll (pincér): DNS, CDN, védelem, képtárolás
+
+ÖSSZEHASONLÍTÁS:
+  Vercel Hobby + Cloudflare = $0/hó, 10GB kép, Facebook megy
+  Vercel Pro = $20/hó, 1GB kép, Firewall rule-lal FB megoldható
+  Cloudflare Pages = kiválthatná a Vercelt, de Next.js támogatás nem 100%
+  Railway + Cloudflare = $5/hó, nincs beépített képtárolás
+
+DÖNTÉS:
+  Egyelőre NEM váltunk Cloudflare-re.
+  Profilkép → Cloudinary (ingyenes, 25GB, platformfüggetlen).
+  Cloudflare → soft launch előtt, ha kell a Facebook megosztás.
+
+
+================================================================================
+4. PROFILKÉP FELTÖLTÉS — CLOUDINARY
+================================================================================
+
+MEGVALÓSÍTVA:
+  - Cloudinary fiók: dx8forkxy cloud name
+  - API endpoint: /api/upload (POST, FormData)
+    - Bejelentkezett felhasználónak
+    - Max 5MB képfájl
+    - Cloudinary-re tölt fel: 400x400px, arcra fókuszál (gravity: face)
+    - Automatikus tömörítés (quality: auto)
+    - Felülírja a régit (user ID = public_id)
+    - Menti a photoUrl-t a User modellbe
+
+  - Profil oldal UI:
+    - "Profilkép" szekció a Statisztikák és Profil szerkesztése között
+    - Kör alakú előnézet (jelenlegi kép vagy kezdőbetű)
+    - "Kép választása" gomb, "Max 5MB, JPG vagy PNG" felirat
+
+  - Megjelenítés mindenhol:
+    - PlayerCard: ha van photoUrl, kép a kezdőbetű helyett
+    - Játékos profil oldal (/jatekosok/[id])
+    - Főoldali keresés (SearchSection)
+    - API-k frissítve: /api/users és /api/users/[id] visszaadják a photoUrl-t
+
+HIBAELHÁRÍTÁS:
+  - Első hiba: "Invalid Signature" — a .env fájlban a CLOUDINARY_URL
+    formátuma hibás volt (secret és cloud name összekeveredett)
+  - Második hiba: "Must supply api_key" — a Next.js nem olvasta be az
+    .env-t futás közben, újraindítás kellett
+  - Megoldás: explicit cloudinary.config() a kódban + külön env változók:
+    CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
+
+VERCEL BEÁLLÍTÁS:
+  A 3 Cloudinary env változót a Vercel Dashboard-on is be kell állítani
+  (Settings → Environment Variables).
+
+
+================================================================================
+5. CLAUDE.MD LÉTREHOZÁSA
+================================================================================
+
+Létrejött a projekt gyökerében a CLAUDE.md fájl:
+  - Utasítás: minden beszélgetés elején olvasd be a legfrissebb
+    uzleti-validacio-osszefoglalo és parbeszed fájlokat
+  - Agenda (következő lépések) listája
+
+
+================================================================================
+6. GOOGLE PLAY STORE — TWA ELŐKÉSZÍTÉS
+================================================================================
+
+GOOGLE PLAY DEVELOPER FIÓK:
+  - Regisztráció megtörtént (laszlo.virtualtryon@gmail.com)
+  - Fiók típus: "Yourself" (személyes, nem szervezeti)
+  - $25 egyszeri díj fizetve
+  - Account ID: 8698332858346556989
+  - Fejlesztő név: PalyaPartner
+
+VERIFIKÁCIÓ SZÜKSÉGES (1-3 munkanap):
+  1. Személyazonosság igazolása (személyi igazolvány feltöltése)
+  2. Android eszköz verifikáció (Play Console app telepítése telefonra)
+  3. Telefonszám verifikáció
+
+TWA CSOMAG GENERÁLÁS:
+  - PWABuilder (pwabuilder.com) használva
+  - Beállítások: Package ID: hu.palyapartner.www.twa, Display: Standalone
+  - Key country code: HU, Signing key: New (PWABuilder generálja)
+  - SIKERTELEN: PWABuilder szervere timeout-olt kétszer is
+  - Bubblewrap CLI alternatíva: Java JDK kellene, ami nincs telepítve
+
+KÖVETKEZŐ LÉPÉS:
+  - PWABuilder újrapróbálása (valószínűleg szerver túlterheltség volt)
+  - Ha az sem megy: Java JDK + Bubblewrap CLI telepítés
+  - Google verifikáció megvárása (1-3 nap)
+
+
+================================================================================
+7. MEMÓRIA FRISSÍTÉS
+================================================================================
+
+A feature lista (project_feature_list.md) frissítve a valós állapottal:
+  - PWA benne van
+  - Chilidog PB font (nem Luckiest Guy)
+  - Sportágankénti szint (nem globális)
+  - PlayerCard redesign szintpöttyökkel
+  - Profil statisztikák
+  - Mobil UX javítások
+  - Profilkép feltöltés Cloudinary-vel
+
+
+================================================================================
+8. AKTUÁLIS STÁTUSZ
+================================================================================
+
+KÉSZ:
+  ✓ Minden korábbi feature (ld. előző munkanaplók)
+  ✓ SEO optimalizáció (meta tagek, sitemap, robots.txt, OG kép)
+  ✓ Profilkép feltöltés (Cloudinary, megjelenítés mindenhol)
+  ✓ Google Play Developer fiók regisztrálva
+
+FOLYAMATBAN:
+  ⏳ Google Play verifikáció (1-3 munkanap)
+  ⏳ TWA csomag generálás (PWABuilder újrapróbálás)
+
+KÖVETKEZŐ LÉPÉSEK:
+  1. TWA csomag legenerálása és Play Store publikálás
+  2. Push értesítések (PWA service worker)
+  3. Soft launch — valós felhasználók szerzése
+  4. Cloudflare átállás (ha kell a Facebook megosztás)

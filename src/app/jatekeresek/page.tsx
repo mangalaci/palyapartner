@@ -100,6 +100,10 @@ export default function GameRequestsPage() {
         )}
       </div>
 
+      <p className="text-gray-300 text-sm mb-6">
+        Írd ki, milyen sporthoz keresel társat — mikor, hol és milyen szinten. Más játékosok jelentkezhetnek nálad üzenetben.
+      </p>
+
       {!session && (
         <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-6">
           <Link href="/bejelentkezes" className="underline">

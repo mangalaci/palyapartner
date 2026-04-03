@@ -1,0 +1,10 @@
+aca2975 Navbar még karcsúbb (40px) + font import javítás
+cb49503 Teljes vizuális átdolgozás: sportos zöld dizájn
+995cbb5 Elfelejtett jelszó funkció
+---LOCAL---
+aca2975 Navbar még karcsúbb (40px) + font import javítás
+cb49503 Teljes vizuális átdolgozás: sportos zöld dizájn
+995cbb5 Elfelejtett jelszó funkció
+---REMOTE URL---
+origin	https://github.com/mangalaci/palyapartner.git (fetch)
+origin	https://github.com/mangalaci/palyapartner.git (push)

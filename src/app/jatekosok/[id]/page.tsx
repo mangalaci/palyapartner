@@ -13,6 +13,7 @@ interface PlayerProfile {
   districts: string[]
   ageGroup: string
   bio: string | null
+  photoUrl: string | null
   sports: { sport: string; level: string }[]
   createdAt: string
 }
@@ -66,8 +67,12 @@ export default function PlayerProfilePage() {
     <div className="max-w-2xl mx-auto px-4 py-12">
       <div className="bg-white rounded-xl shadow-lg p-8">
         <div className="flex items-center gap-6 mb-6">
-          <div className="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 text-3xl font-semibold border-2 border-primary-300">
-            {initial}
+          <div className="w-20 h-20 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 text-3xl font-semibold border-2 border-primary-300 overflow-hidden">
+            {player.photoUrl ? (
+              <img src={player.photoUrl} alt="" className="w-full h-full object-cover" />
+            ) : (
+              initial
+            )}
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">

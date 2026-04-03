@@ -11,6 +11,7 @@ interface Player {
   city: string
   districts: string[]
   ageGroup: string
+  photoUrl?: string | null
   sports: { sport: string; level: string }[]
 }
 
@@ -100,6 +101,7 @@ export default function PlayersPage() {
                 districts={player.districts}
                 sports={player.sports}
                 ageGroup={player.ageGroup}
+                photoUrl={player.photoUrl}
                 isLoggedIn={!!session}
               />
             ))}

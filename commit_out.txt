@@ -1,0 +1,2 @@
+[master 901756a] Sport emoji ikonok hozzáadása a sportnevek mellé
+ 4 files changed, 23 insertions(+), 4 deletions(-)

@@ -163,6 +163,10 @@ export default function MatchesPage() {
         )}
       </div>
 
+      <p className="text-gray-300 text-sm mb-6">
+        Csapatsport meccseket szervezhetsz és csatlakozhatsz másokéhoz. Válaszd ki a sportot, az időpontot és a helyszínt — ha összejön a létszám, mehet a meccs!
+      </p>
+
       {!session && (
         <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg mb-6">
           <Link href="/bejelentkezes" className="underline">

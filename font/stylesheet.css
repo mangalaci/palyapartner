@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Chilidog PB';
+    src: url('ChilidogPB-Regular.eot');
+    src: local('Chilidog PB'), local('ChilidogPB-Regular'),
+        url('ChilidogPB-Regular.eot?#iefix') format('embedded-opentype'),
+        url('ChilidogPB-Regular.woff2') format('woff2'),
+        url('ChilidogPB-Regular.woff') format('woff'),
+        url('ChilidogPB-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+

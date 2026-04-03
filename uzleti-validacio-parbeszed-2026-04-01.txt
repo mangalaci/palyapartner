@@ -1,0 +1,283 @@
+================================================================================
+     PÁLYAPARTNER — PÁRBESZÉD / MUNKANAPLÓ
+     2026-04-01
+================================================================================
+
+Előző napi munkanapló: uzleti-validacio-parbeszed-2026-03-31.txt
+
+
+================================================================================
+1. TÉRKÉP JAVÍTÁS — GOOGLE MAPS → OPENSTREETMAP VÁLTÁS
+================================================================================
+
+PROBLÉMA:
+  A Google Maps térkép nem jelent meg a meccs létrehozásnál és részleteknél.
+  Az API kulcs működött (a JS válasz helyes volt), de a Vercel build-ben
+  a NEXT_PUBLIC_ környezeti változó valószínűleg üres maradt (build-time
+  beágyazás vs. runtime elérés probléma).
+
+DÖNTÉS:
+  Átváltás OpenStreetMap + Leaflet megoldásra.
+  Előnyök:
+    - Teljesen ingyenes, nincs API kulcs
+    - Nincs GCP projekt / billing kérdés
+    - Azonnal működik minden deploy-on
+    - Ugyanaz a funkcionalitás (kattintás = pin)
+
+MEGVALÓSÍTÁS:
+  - MapPicker.tsx újraírva: Leaflet CDN-ről töltődik (next/script)
+  - OpenStreetMap csempék, nincs külső npm csomag szükséges
+  - readOnly mód a meccs részleteknél (térkép + "Navigálj ide!" gomb)
+  - "Navigálj ide!" továbbra is Google Maps navigációt nyit (ingyenes)
+  - meccsek/[id]/page.tsx: Google Maps embed iframe lecserélve MapPicker-re
+
+
+================================================================================
+2. TÉRKÉP VÁROS-KÖZPONTOSÍTÁS
+================================================================================
+
+PROBLÉMA:
+  A térkép mindig Budapest közepén indult, függetlenül a kiválasztott várostól.
+
+MEGOLDÁS:
+  - CITY_COORDS objektum hozzáadva a types.ts-be (24 város koordinátái)
+  - MapPicker kap egy `city` prop-ot
+  - Ha nincs pin, a kiválasztott város közepére áll a térkép
+  - Ha várost váltasz, a térkép automatikusan odaugrik
+  - A formban a CitySelect a térkép ELÉ került (logikusabb: előbb város,
+    aztán pontos hely)
+
+
+================================================================================
+3. SAJÁT MECCSEIM OLDAL
+================================================================================
+
+ÚJ OLDAL: /meccseim
+  Bejelentkezett felhasználó látja a saját meccseit három tabban:
+    1. Következő — ahol résztvevő vagyok, időrendben
+    2. Várólistán — ahol még várok
+    3. Korábbi — amik már lejártak
+
+  Minden meccs kártyán:
+    - Sport + szint badge
+    - "Szervező" badge ha én szerveztem
+    - "Várólistán" badge a várolista tabban
+    - Időpont, helyszín, város
+    - Létszám és státusz ("Összejött!" / "Még X ember kell")
+    - Ha üres: "Meccsek böngészése" gomb a /meccsek-re
+
+API: /api/matches/my — lekérdezi a felhasználó összes meccsét és
+  három csoportba rendezi (upcoming / waitlisted / past)
+
+NAVBAR: "Meccseim" menüpont hozzáadva (desktop + mobil), csak
+  bejelentkezett felhasználóknak látszik.
+
+
+================================================================================
+4. MOBIL UX JAVÍTÁSOK
+================================================================================
+
+Átnéztük a teljes appot mobil szempontból.
+Javítások:
+  - Budapest kerületi szűrő gombok nagyobbak (px-2 py-1 → px-3 py-2)
+  - Hamburger menü gomb nagyobb (p-1.5 → p-2.5, ikon h-5 → h-6)
+  - Meccseim tabok magasabbak (py-2 → py-3)
+  - Meccs részletek "Kilépek" gomb nagyobb (py-2 → py-3)
+  - "Üzenet a szervezőnek" gomb nagyobb (py-2 → py-3)
+
+Cél: minimum 44px érintési felület minden interaktív elemen (Apple/Google
+ajánlás mobilra).
+
+
+================================================================================
+5. MECCS ÉRTESÍTÉSEK
+================================================================================
+
+DÖNTÉS:
+  Értesítéseket egyelőre az üzenetküldő rendszeren keresztül küldjük.
+  Nem push notification — az Üzenetek menüpontban jelennek meg,
+  a navbar olvasatlan számlálója mutatja őket.
+
+  Később lehetséges: push notification (PWA service worker-rel).
+
+MEGVALÓSÍTOTT ÉRTESÍTÉSEK:
+  1. Valaki csatlakozik → szervező kap üzenetet:
+     "Pisti csatlakozott a meccsedhez: Kispályás foci, Bikás park"
+  2. Valaki a várólistára kerül → szervező kap üzenetet:
+     "Pisti feliratkozott a várólistára: Kispályás foci, Bikás park"
+  3. Valaki kilép → szervező kap üzenetet:
+     "Pisti kilépett a meccsedből: Kispályás foci, Bikás park"
+  4. Várólistáról előléptetés → az előléptetett kap üzenetet:
+     "Előléptél a várólistáról! Résztvevő lettél: Kispályás foci, Bikás park"
+  5. Összejött a minimum létszám → minden résztvevő kap üzenetet:
+     "Összejött a meccs! Kispályás foci, Bikás park"
+
+  Saját magadnak nem küld értesítést (pl. szervező nem kap üzenetet
+  a saját csatlakozásáról).
+
+TERVEZÉSI DÖNTÉS (Laci):
+  Időütközés-ellenőrzés (két meccs hasonló időben, távoli helyszínen)
+  NEM kell az MVP-ben. Okok: komplex, nagy platformok sem csinálják,
+  a felhasználó felnőtt és maga kezeli. Később max figyelmeztetés.
+
+
+================================================================================
+6. AKTUÁLIS STÁTUSZ
+================================================================================
+
+KÉSZ:
+  ✓ PWA (telepíthető, offline)
+  ✓ Meccs-szervező (DB, API, UI, térkép, szűrők, kerületek)
+  ✓ OpenStreetMap térkép (város-központosítással)
+  ✓ Saját meccseim oldal (3 tab)
+  ✓ Meccs értesítések (üzenetként)
+  ✓ Mobil UX javítások
+
+================================================================================
+7. DIZÁJN MÓDOSÍTÁSOK
+================================================================================
+
+FONT CSERE:
+  - Luckiest Guy → Chilidog PB (saját hostolt font, public/fonts/)
+  - Google Fonts CDN függőség megszüntetve
+  - Chilidog PB csak h1 és h2 elemekre (játékos nevek normál fonttal maradnak)
+  - Desktop navbar menüpontok Chilidog PB-vel
+
+FŐOLDAL:
+  - Főcím keret (text-stroke) eltávolítva — kontúr nélküli betűk
+  - "sportpartnered" szó színe = #003d1a (mint a logo második P betűje)
+  - Navbar logó kontúr nélkül
+  - Desktopon: ⚽ emoji helyett SVG focilabda (realisztikus, 3D, pentagönös)
+  - Mobilon: emojik maradnak (ott jól néznek ki)
+
+APP IKON:
+  - Ikon generátor oldal létrehozva (icon-generator.html)
+  - Két "P" betű Chilidog PB fonttal: egyik fehér, másik sötétzöld
+  - Zöld gradiens háttér, lekerekített sarkok
+  - 192x192 és 512x512 PNG generálva és cserélve
+
+
+================================================================================
+8. AKTUÁLIS STÁTUSZ
+================================================================================
+
+KÉSZ:
+  ✓ PWA (telepíthető, offline)
+  ✓ Meccs-szervező (DB, API, UI, térkép, szűrők, kerületek)
+  ✓ OpenStreetMap térkép (város-központosítással)
+  ✓ Saját meccseim oldal (3 tab)
+  ✓ Meccs értesítések (üzenetként)
+  ✓ Mobil UX javítások
+  ✓ Chilidog PB font, app ikon, dizájn csiszolás
+
+KÖVETKEZŐ LÉPÉSEK:
+  - Play Store publikálás (TWA, $25)
+  - Push notification (PWA service worker)
+
+
+================================================================================
+9. SZINT-TRACKING, STATISZTIKÁK, JÁTÉKOS KÁRTYA REDESIGN
+================================================================================
+
+PROFILOLDAL STATISZTIKÁK:
+  - Profil oldalon (/profil) megjelenik: összes meccs, szervezett meccsek száma
+  - Sportágankénti bontás (pl. "⚽ Foci: 5, 🎾 Tenisz: 3")
+  - Ha nincs meccs: "Még nem voltál meccsen. Csatlakozz egyhez!"
+  - API: /api/users/[id] kibővítve stats mezővel (MatchParticipant-ből számolva)
+
+JÁTÉKOS KÁRTYA (PlayerCard) REDESIGN:
+  - Kompaktabb elrendezés: avatar + név + kor egy sorban
+  - Sport badge-ek szintpöttyökkel (●●○ = Középhaladó)
+    - Zöld pöttyök = Kezdő (1/3)
+    - Kék pöttyök = Középhaladó (2/3)
+    - Piros pöttyök = Haladó (3/3)
+  - Szint sportáganként jelenik meg (nem globálisan a kártyán)
+  - Max 3 sport látszik, utána "+X" badge
+  - overflow-hidden a mobilos túlcsordulás ellen
+
+DIZÁJN JAVÍTÁSOK:
+  - "Hogyan működik?" számok (1/2/3): text-primary-400 → text-white
+  - Magyarázó szövegek: text-gray-400 → text-gray-200 (olvashatóbb)
+  - Legördülő szűrők: bg-white/10 → bg-black/40, border-white/40
+    (sötét füstüveg hatás, jól elválik a zöld háttértől)
+  - Favicon beállítva (icon-192.png hivatkozás a layout metadata-ban)
+
+
+================================================================================
+10. ÜZLETI MODELL GONDOLKODÁS — PÁLYA-PARTNERI MODELL
+================================================================================
+
+LACI MEGLÁTÁSA:
+  A hirdetés-alapú modellnél sokkal ígéretesebb a sportpálya-partneri modell:
+  sportpályák fizetnek a PályaPartner-en keresztül hozott játékosokért.
+
+MIÉRT JOBB A PÁLYA-PARTNERI MODELL A HIRDETÉSNÉL:
+  - Magasabb egységár: egy pálya-foglalás utáni jutalék (500-2000 Ft)
+    sokkal több, mint bármilyen kelet-európai banner eCPM
+  - Kevesebb user kell: 100 aktív user havi 2x foglalással már havi
+    100-400k Ft bevételt generálhat (vs. 1500 user hirdetésekhez)
+  - Mindkét fél nyer: a pálya új vendégeket kap, a játékos helyet talál
+  - Nem idegesíti a usert: nincs reklám, jobb felhasználói élmény
+
+AMI EHHEZ KELLENE A TERMÉKBEN:
+  1. Pálya-adatbázis (név, cím, sportágak, árak, nyitvatartás)
+  2. "Foglalj pályát" gomb meccs mellé vagy külön menüpont
+  3. Tracking: melyik foglalás jött PályaPartner-en keresztül
+     (referral link vagy kuponkód)
+  4. Pálya-üzemeltetői felület vagy egyszerű dashboard
+
+LEHETSÉGES MEGKÖZELÍTÉSEK:
+  A) Közvetlenül linkelés a pálya saját foglalási rendszerére + referral díj
+  B) PályaPartner-en belüli foglalás (nagyobb fejlesztés)
+  C) Egyszerű indulás: pálya fizet havi díjat a megjelenésért (listing fee)
+
+LACI ÁLLÁSPONTJA:
+  Egyelőre nincs döntés a konkrét megvalósításról.
+  Érzése: először kellene egy játékos user-bázis (törzsközönség),
+  utána jönne a pálya-partneri monetizáció.
+
+KAPCSOLÓDÁS A KORÁBBI ELEMZÉSHEZ (összefoglaló v2, 6/D pont):
+  Ez összhangban van a korábbi "tyúk-tojás" feloldási stratégiával:
+    1. Játékos-párosítás + meccs-szervező működik (user értéket kap)
+    2. Létesítményeket ingyen fellistázni (publikus adatokból)
+    3. Ha van 500+ aktív user → "kiemelt megjelenés" ajánlat
+    4. Ha van 1000+ MAU → affiliate pályafoglalás
+
+
+================================================================================
+11. DISTRIBÚCIÓS SZINTEK — HOGYAN JUT EL AZ APP A FELHASZNÁLÓHOZ
+================================================================================
+
+4 SZINT LÉTEZIK:
+
+  1. BÖNGÉSZŐBEN (alapértelmezett)
+     - Simán megnyitod a weboldalt Chrome-ban/Safari-ban
+     - Minden funkció elérhető, de böngésző címsorral jelenik meg
+     - Nincs ikon a kezdőképernyőn
+     >>> Nem ideális, de működik. <<<
+
+  2. PWA — "HOZZÁADÁS A KEZDŐKÉPERNYŐHÖZ" (jelenleg ez van)
+     - Telepíted a böngészőből → ikon a telefonon, teljes képernyős
+     - Úgy néz ki és viselkedik, mint egy "igazi" app
+     - Ingyenes, nincs Store jóváhagyás
+     - Push notification is lehetséges (PWA service worker-rel)
+     - Hátránya: a user-nek tudnia kell, hogyan telepítse
+
+  3. GOOGLE PLAY STORE — TWA ($25 egyszeri)
+     - Ugyanez a webapp becsomagolva egy vékony Android "héjba"
+     - Megjelenik a Play Store-ban, letölthető mint bármely app
+     - A user szempontjából semmiben nem különbözik egy "igazi" apptól
+     - Csak Android (iPhone-ra nincs ilyen)
+     >>> KÖVETKEZŐ LÉPÉS <<<
+
+  4. APPLE APP STORE ($99/év)
+     - iPhone-ra NINCS TWA lehetőség (Apple nem engedi)
+     - Két opció:
+       A) React Native: frontendot újraírni natív appként (nagy munka)
+       B) PWA wrapper (Capacitor/PWABuilder): meglévő webapp becsomagolva
+          — Apple szigorúbb, visszadobhatja
+     - Költség: $99/év Apple Developer Program
+     >>> Csak akkor éri meg, ha van elég iPhone user <<<
+
+FONTOS: A 2. és 3. szint UGYANAZ a kód — a TWA csak csomagolás.
+Az iPhone usereknek egyelőre marad a 2. szint (PWA).

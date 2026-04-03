@@ -26,6 +26,7 @@ export const SPORTS = [
   'Futsal',
   'Kézilabda',
   'Úszás',
+  'Kondizás',
 ] as const
 
 export const LEVELS = ['Kezdő', 'Középhaladó', 'Haladó'] as const
@@ -127,6 +128,7 @@ export const SPORT_ICONS: Record<string, string> = {
   'Futsal': '⚽',
   'Kézilabda': '🤾',
   'Úszás': '🏊',
+  'Kondizás': '🏋️',
 }
 
 export const TEAM_SPORTS = [

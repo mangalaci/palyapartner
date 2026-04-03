@@ -1,0 +1,229 @@
+================================================================================
+     PÁLYAPARTNER — PÁRBESZÉD / MUNKANAPLÓ
+     2026-03-31
+================================================================================
+
+Előző napi munkanapló: uzleti-validacio-parbeszed-2026-03-30.txt
+Összefoglaló doksi: uzleti-validacio-osszefoglalo-v2.txt
+
+
+================================================================================
+1. PWA MEGVALÓSÍTÁS
+================================================================================
+
+A megvalósítási sorrend 1. pontja: PWA-ra alakítás.
+
+Amit hozzáadtunk a projekthez:
+  - public/manifest.json     (app neve, színek, ikonok)
+  - public/sw.js              (service worker, cache, offline)
+  - public/icons/icon-192.png (kis ikon telefonon)
+  - public/icons/icon-512.png (nagy ikon splash screen-en)
+  - public/icons/icon.svg     (forrás SVG, később cserélhető logóra)
+  - src/app/layout.tsx        (manifest link, SW regisztráció, viewport)
+
+Next.js 14 sajátosság: a viewport és themeColor külön exportként kell,
+nem a Metadata objektumban.
+
+Git problémák:
+  - A bash semmilyen kimenetet nem adott (Windows rendszerprobléma)
+  - Laci manuálisan commitolt a PowerShell-ben
+  - "dubious ownership" hiba: a repo "Felhasználó" Windows usernek volt,
+    de "laci" userként próbáltuk használni
+  - Megoldás: git config --global --add safe.directory C:/Users/laci/projects/palyapartner
+
+Commit: 964bee9 "PWA támogatás hozzáadása"
+Push: sikeres, Vercel auto-deploy lefutott.
+
+
+================================================================================
+2. PWA TESZTELÉS ANDROID TELEFONON
+================================================================================
+
+  - palyapartner.hu/manifest.json megnyitva → JSON helyesen megjelent
+  - Chrome menüben "Add to Home screen" megjelent
+  - App telepítve a telefon főképernyőjére
+  - Teljes képernyőn fut, böngésző címsor nélkül
+
+Az oldal már korábban is reszponzív volt (Tailwind CSS), a PWA nem a
+kinézetet változtatta meg, hanem a telepíthetőséget + offline működést
+adta hozzá.
+
+
+================================================================================
+3. PLAY STORE / APP STORE KÉRDÉS
+================================================================================
+
+LACI: A Play Store-ból és az App Store-ból hogyan lesz letölthető?
+
+Válasz: Egyelőre NEM kerül be az áruházakba.
+
+  Google Play Store:
+    - PWA becsomagolható TWA-ként (Trusted Web Activity)
+    - Egyszeri $25 fejlesztői fiók
+    - 1-2 session munka
+    - A meglévő weboldalat csomagolja be Android appba
+
+  Apple App Store:
+    - Apple NEM engedi PWA becsomagolását
+    - Csak React Native vagy natív Swift app kerülhet be
+    - Évi $99 fejlesztői fiók (~40,000 Ft)
+    - Hetek fejlesztési munka (frontend újraírás)
+
+Reális terv:
+  Most:       PWA böngészőből telepíthető (KÉSZ)
+  Hamarosan:  Play Store — TWA ($25)
+  Később:     App Store — csak ha React Native-ra váltunk
+
+LACI megközelítése: először teszteljük, van-e kereslet, aztán áruházak.
+
+
+================================================================================
+4. KÖVETKEZŐ LÉPÉS: MECCS-SZERVEZŐ UX TERVEZÉS
+================================================================================
+
+A megvalósítási sorrend szerint a 2. pont következik:
+  Meccs-szervező UX tervezés (papíron: képernyők, flow — NEM kódolás)
+
+Státusz: most kezdjük.
+
+
+================================================================================
+5. MECCS-SZERVEZŐ UX TERVEZÉS — DÖNTÉSEK
+================================================================================
+
+MENÜSTRUKTÚRA:
+  - "Meccsek" menüpont (ÚJ) — csapatsportok: foci, kosár, röpi stb.
+  - "Játékkérések" menüpont MARAD — 1-on-1: tenisz, squash, padel stb.
+  - Futás kimaradhat a meccsekből (nem igazán meccs)
+
+VÁROLISTA:
+  - Először azt mondtuk nem kell, de LACI jó érve: ha valaki lemondja,
+    a várólistáról automatikusan bekerül a következő.
+  - Tehát: ha betelt → "Várólistára feliratkozom" gomb, pozíciószám.
+
+SZERVEZŐ JOGAI:
+  - Módosíthatja: időpont, helyszín → résztvevők kapnak értesítést
+  - Lemondhatja → mindenki értesítést kap
+  - Ha más átvállalja a szervezést → meccs marad
+  - Szervező is kiléphet, ha van aki átveszi
+
+LÉTSZÁM:
+  - Minimum + maximum (pl. foci: min 8, max 12)
+  - Státusz: "3/8-12 — még 5 ember kell" → "8/12 — összejött!" → "12/12 betelt"
+  - Ha nem jön össze minimum → chatben megbeszélik, szervező leszállíthatja
+
+PONTOS HELYSZÍN:
+  - Beépített térkép (Google Maps API)
+  - Meccs létrehozásnál: kattintás = pin elhelyezése
+  - Meccs részleteknél: térkép + "Navigálj ide!" gomb
+  - Plusz szöveges helyszín név ("Bikás park nagy pálya")
+
+KÉPERNYŐK:
+  1. Meccsek lista — szűrők (város, sport), kártyák, "+" gomb
+  2. Meccs szervezése — form: sport, szint, dátum, idő, min/max létszám,
+     helyszín név, térkép pin, megjegyzés
+  3. Meccs részletek — térkép, résztvevő lista, csatlakozás/várolista gomb
+  4. Saját meccseim — következő / várólistán / korábbi
+
+ADATMODELL:
+  Meccs tábla: sport, szint, dátum, helyszín név, lat, lng,
+    min/max létszám, megjegyzés, szervező ID, státusz
+  Résztvevő tábla: meccs ID, user ID, típus (résztvevő/várólistán),
+    csatlakozás időpontja
+
+JELENLEGI JÁTÉKKÉRÉS EVOLÚCIÓJA:
+  A meglévő játékkérés kód nem dobjuk ki, a meccsek új feature-ként
+  épülnek be mellé. A játékkérés marad az 1-on-1 sportoknak.
+
+
+================================================================================
+6. MECCS-SZERVEZŐ MEGVALÓSÍTÁS
+================================================================================
+
+ADATBÁZIS (Prisma):
+  Két új modell a schema.prisma-ban:
+  - Match: id, organizerId, sport, level, date, locationName, lat, lng,
+    city, districts (JSON), minPlayers, maxPlayers, description,
+    status (open/full/completed/cancelled), createdAt, updatedAt
+  - MatchParticipant: id, matchId, userId, type (player/waitlist), joinedAt
+    unique constraint: [matchId, userId] — egy user csak egyszer csatlakozhat
+
+API VÉGPONTOK (5 db):
+  1. GET  /api/matches          — meccsek listázása (város, sport, kerület szűrők)
+  2. POST /api/matches          — új meccs létrehozása
+  3. GET  /api/matches/[id]     — meccs részletei (szervező + résztvevők adataival)
+  4. POST /api/matches/[id]/join  — csatlakozás (player, vagy waitlist ha betelt)
+  5. POST /api/matches/[id]/leave — kilépés (ha player lép ki → várólistáról
+                                     automatikus előléptetés)
+
+OLDALAK:
+  - /meccsek           — meccs lista + szűrők + létrehozó form
+  - /meccsek/[id]      — meccs részletek + résztvevők + csatlakozás/kilépés
+
+NAVBAR:
+  - "Meccsek" menüpont hozzáadva (desktop + mobil hamburger menü)
+
+CSAPATSPORTOK:
+  - Új TEAM_SPORTS tömb a types.ts-ben:
+    Kosárlabda, Röplabda, Kispályás foci, Nagypályás foci,
+    Kézilabda, Floorball, Jégkorong, Ultimate frisbee
+
+
+================================================================================
+7. SZŰRŐK FEJLESZTÉSE
+================================================================================
+
+BUDAPEST KERÜLETI SZŰRŐ:
+  - Ha város = "Budapest", megjelenik egy kerületválasztó
+  - 23 kerület (I-XXIII) checkbox formában
+  - API szinten: districts JSON mezőben tároljuk a kiválasztott kerületeket
+  - Szűrés: a meccs kerületei és a szűrő kerületei között van-e átfedés
+
+FORM PRE-FILL:
+  - Ha a szűrőkben már ki van választva város és sportág,
+    a meccs létrehozó form ezeket előre kitölti
+  - Nem kell újra beállítani, ami már a szűrőben be van állítva
+
+
+================================================================================
+8. GOOGLE MAPS TÉRKÉP — TERV ÉS ÁLLAPOT
+================================================================================
+
+TERV (jóváhagyva):
+  - MapPicker komponens: meccs létrehozásnál kattintással pin elhelyezés
+  - Meccs részleteknél: térkép a helyszínnel + "Navigálj ide!" gomb
+    (Google Maps deeplink-kel megnyitja a navigációt)
+  - Szöveges helyszín név + térkép együtt
+
+MEGVALÓSÍTÁS:
+  - MapPicker komponens elkészült (src/components/MapPicker.tsx)
+  - @react-google-maps/api csomag telepítve
+  - Google Maps API kulcs a .env-ben és Vercelen beállítva
+
+JELENLEGI ÁLLAPOT:
+  - A térkép még NEM jelenik meg
+  - Ok: a Google Cloud API-k feltehetőleg nem a megfelelő projektben
+    lettek engedélyezve
+  - Teendő: Maps JavaScript API engedélyezése a PályaPartner GCP projektben
+
+
+================================================================================
+9. AKTUÁLIS STÁTUSZ
+================================================================================
+
+KÉSZ:
+  ✓ PWA (telepíthető Android-ról, offline működik)
+  ✓ Meccs-szervező adatbázis és API (teljes CRUD + join/leave + waitlist)
+  ✓ Meccsek lista oldal szűrőkkel
+  ✓ Meccs részletek oldal
+  ✓ Budapest kerületi szűrő
+  ✓ Navbar frissítve
+
+FOLYAMATBAN:
+  → Google Maps térkép megjelenítése (API konfig probléma)
+
+KÖVETKEZŐ LÉPÉSEK:
+  - Térkép működésre bírása
+  - Dizájn finomítás
+  - Szint-tracking, statisztikák
+  - Play Store publikálás (TWA, $25)

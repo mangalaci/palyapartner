@@ -1,0 +1,2 @@
+To https://github.com/mangalaci/palyapartner.git
+   787ec7f..901756a  master -> master

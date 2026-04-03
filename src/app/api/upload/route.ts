@@ -4,7 +4,11 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { v2 as cloudinary } from 'cloudinary'
 
-// A CLOUDINARY_URL env változóból automatikusan konfigurálódik
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions)
@@ -24,8 +28,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Csak képfájl tölthető fel.' }, { status: 400 })
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: 'A kép maximum 5MB lehet.' }, { status: 400 })
+    if (file.size > 2 * 1024 * 1024) {
+      return NextResponse.json({ error: 'A kép maximum 2MB lehet.' }, { status: 400 })
     }
 
     const bytes = await file.arrayBuffer()

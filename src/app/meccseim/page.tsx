@@ -90,7 +90,10 @@ export default function MyMatchesPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-white mb-6">Meccseim</h1>
+      <h1 className="text-3xl font-bold text-white mb-2">Meccseim</h1>
+      <p className="text-gray-300 text-sm mb-6">
+        Itt látod a meccseidet: amikre jelentkeztél, amiken várólistán vagy, és a korábbiakat.
+      </p>
 
       {/* Tabok */}
       <div className="flex gap-1 mb-6 bg-white/10 rounded-lg p-1">

@@ -1,0 +1,5 @@
+cb49503 Teljes vizuális átdolgozás: sportos zöld dizájn
+995cbb5 Elfelejtett jelszó funkció
+d3fa4cb Megerősítő email újraküldése + meglévő userek verifikálása
+54db1c0 Resend feladó átállítása onboarding@resend.dev-re
+c1065a5 Olvasatlan üzenet számláló a navigációs sávban

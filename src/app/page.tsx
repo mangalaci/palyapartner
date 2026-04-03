@@ -33,9 +33,8 @@ export default function Home() {
             Találd meg a tökéletes{' '}
             <span style={{ color: '#003d1a' }}>sportpartnered</span>
           </h1>
-          <p className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto">
-            Legyen szó teniszről, fociról vagy futásról, csatlakozz a közösséghez és
-            soha többé ne játssz egyedül!
+          <p className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto font-heading">
+            Legyen szó teniszről, fociról vagy futásról, találd meg a társad, a csapatod!
           </p>
         </div>
       </section>

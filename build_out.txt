@@ -1,0 +1,56 @@
+
+> palyapartner@1.0.0 build
+> next build
+
+  ▲ Next.js 14.2.35
+  - Environments: .env
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/23) ...
+   Generating static pages (5/23) 
+   Generating static pages (11/23) 
+   Generating static pages (17/23) 
+ ✓ Generating static pages (23/23)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    2.99 kB         354 kB
+├ ○ /_not-found                          873 B          88.2 kB
+├ ƒ /api/auth/[...nextauth]              0 B                0 B
+├ ƒ /api/forgot-password                 0 B                0 B
+├ ƒ /api/game-requests                   0 B                0 B
+├ ƒ /api/messages                        0 B                0 B
+├ ƒ /api/messages/[userId]               0 B                0 B
+├ ƒ /api/messages/unread                 0 B                0 B
+├ ƒ /api/register                        0 B                0 B
+├ ƒ /api/resend-verification             0 B                0 B
+├ ƒ /api/reset-password                  0 B                0 B
+├ ƒ /api/users                           0 B                0 B
+├ ƒ /api/users/[id]                      0 B                0 B
+├ ƒ /api/verify                          0 B                0 B
+├ ○ /bejelentkezes                       1.41 kB         108 kB
+├ ○ /elfelejtett-jelszo                  1.19 kB        97.3 kB
+├ ○ /jatekeresek                         2.9 kB          354 kB
+├ ○ /jatekosok                           2.67 kB         354 kB
+├ ƒ /jatekosok/[id]                      2.16 kB         353 kB
+├ ○ /megerosites                         621 B          96.7 kB
+├ ○ /profil                              2.82 kB         345 kB
+├ ○ /regisztracio                        2.8 kB          350 kB
+├ ○ /uj-jelszo                           1.42 kB        97.5 kB
+├ ○ /uzenetek                            1.06 kB         108 kB
+├ ƒ /uzenetek/[id]                       1.73 kB        99.4 kB
+└ ○ /verify                              986 B            97 kB
++ First Load JS shared by all            87.3 kB
+  ├ chunks/117-a7f94d143874c344.js       31.7 kB
+  ├ chunks/fd9d1056-1aae0987937804d3.js  53.6 kB
+  └ other shared chunks (total)          1.95 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+EXIT: 0

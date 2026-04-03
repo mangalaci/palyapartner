@@ -186,7 +186,7 @@ export default function ProfilePage() {
                 }}
               />
             </label>
-            <p className="text-gray-400 text-sm mt-2">Max 5MB, JPG vagy PNG</p>
+            <p className="text-gray-400 text-sm mt-2">Max 2MB, JPG vagy PNG</p>
           </div>
         </div>
       </div>
