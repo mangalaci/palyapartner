@@ -148,7 +148,8 @@ export default function ChatPage() {
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           placeholder="Írj üzenetet..."
-          className="flex-1 px-4 py-3 border border-white/20 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
+          className="flex-1 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary-500 outline-none text-white placeholder:text-gray-300"
+          style={{ backgroundColor: '#003d1a', borderColor: '#003d1a' }}
         />
         <button
           type="submit"
