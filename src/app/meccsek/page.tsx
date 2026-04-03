@@ -82,7 +82,8 @@ export default function MatchesPage() {
 
   useEffect(() => {
     fetchMatches()
-  }, [filterCity, filterSport, filterDistricts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -152,7 +153,7 @@ export default function MatchesPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-white">Meccsek</h1>
+        <h1 className="text-3xl font-bold" style={{ color: '#003d1a' }}>Meccsek</h1>
         {session && (
           <button
             onClick={() => showForm ? setShowForm(false) : openForm()}
@@ -178,27 +179,34 @@ export default function MatchesPage() {
 
       {/* Szűrők */}
       <div className="space-y-3 mb-6">
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <select
             value={filterCity}
             onChange={(e) => { setFilterCity(e.target.value); setFilterDistricts([]) }}
-            className="px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm"
+            className="flex-1 px-4 py-3 border border-white/40 rounded-lg outline-none bg-black/40 text-white font-heading"
           >
-            <option value="">Minden város</option>
+            <option value="" className="bg-field-dark text-white">Minden város</option>
             {CITIES.map((c) => (
-              <option key={c} value={c}>{c}</option>
+              <option key={c} value={c} className="bg-field-dark text-white">{c}</option>
             ))}
           </select>
           <select
             value={filterSport}
             onChange={(e) => setFilterSport(e.target.value)}
-            className="px-3 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-sm"
+            className="flex-1 px-4 py-3 border border-white/40 rounded-lg outline-none bg-black/40 text-white font-heading"
           >
-            <option value="">Minden sport</option>
+            <option value="" className="bg-field-dark text-white">Minden sport</option>
             {TEAM_SPORTS_LIST.map((s) => (
-              <option key={s} value={s}>{SPORT_ICONS[s] || ''} {s}</option>
+              <option key={s} value={s} className="bg-field-dark text-white">{SPORT_ICONS[s] || ''} {s}</option>
             ))}
           </select>
+          <button
+            onClick={() => fetchMatches()}
+            className="bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg font-heading text-xl transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+            style={{ color: '#003d1a' }}
+          >
+            Mehet!
+          </button>
         </div>
         {filterCity === 'Budapest' && (
           <div className="flex flex-wrap gap-2">
