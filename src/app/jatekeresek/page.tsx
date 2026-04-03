@@ -35,9 +35,20 @@ export default function GameRequestsPage() {
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  async function fetchRequests() {
+  // Filter state
+  const [filterCity, setFilterCity] = useState('')
+  const [filterSport, setFilterSport] = useState('')
+  const [profileLoaded, setProfileLoaded] = useState(false)
+
+  async function fetchRequests(cityFilter?: string, sportFilter?: string) {
+    const params = new URLSearchParams()
+    const c = cityFilter ?? filterCity
+    const s = sportFilter ?? filterSport
+    if (c) params.set('city', c)
+    if (s) params.set('sport', s)
+
     try {
-      const res = await fetch('/api/game-requests')
+      const res = await fetch(`/api/game-requests?${params}`)
       const data = await res.json()
       setRequests(data)
     } catch {
@@ -47,9 +58,26 @@ export default function GameRequestsPage() {
     }
   }
 
+  // Load user's city as default filter
   useEffect(() => {
-    fetchRequests()
-  }, [])
+    if (!session) {
+      fetchRequests()
+      return
+    }
+    fetch(`/api/users/${session.user.id}`)
+      .then((res) => res.json())
+      .then((user) => {
+        if (user.city) {
+          setFilterCity(user.city)
+          fetchRequests(user.city)
+        } else {
+          fetchRequests()
+        }
+      })
+      .catch(() => fetchRequests())
+      .finally(() => setProfileLoaded(true))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session])
 
   async function handleApply(requestId: string) {
     setApplyingId(requestId)
@@ -201,6 +229,33 @@ export default function GameRequestsPage() {
           </form>
         </div>
       )}
+
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
+        <input
+          type="text"
+          placeholder="Város (pl. Budapest)"
+          value={filterCity}
+          onChange={(e) => setFilterCity(e.target.value)}
+          className="flex-1 px-4 py-2.5 border border-white/20 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-white/10 text-white placeholder:text-gray-500"
+        />
+        <select
+          value={filterSport}
+          onChange={(e) => setFilterSport(e.target.value)}
+          className="px-4 py-2.5 border border-white/20 rounded-lg outline-none bg-white/10 text-white"
+        >
+          <option value="" className="bg-field-dark text-white">Minden sport</option>
+          {SPORTS.map((s) => (
+            <option key={s} value={s} className="bg-field-dark text-white">{s}</option>
+          ))}
+        </select>
+        <button
+          onClick={() => fetchRequests()}
+          className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2.5 rounded-lg font-medium transition-colors"
+        >
+          Szűrés
+        </button>
+      </div>
 
       {/* Game requests list */}
       {loading ? (
