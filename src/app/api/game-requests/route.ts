@@ -4,6 +4,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req: Request) {
+  const session = await getServerSession(authOptions)
   const { searchParams } = new URL(req.url)
   const city = searchParams.get('city')
   const sport = searchParams.get('sport')
@@ -21,12 +22,23 @@ export async function GET(req: Request) {
         user: {
           select: { id: true, nickname: true, city: true },
         },
+        responses: {
+          select: { userId: true },
+        },
       },
       orderBy: { date: 'asc' },
       take: 50,
     })
 
-    return NextResponse.json(requests)
+    // Add responseCount and whether the current user has applied
+    const result = requests.map((r) => ({
+      ...r,
+      responseCount: r.responses.length,
+      hasApplied: session ? r.responses.some((resp) => resp.userId === session.user.id) : false,
+      responses: undefined,
+    }))
+
+    return NextResponse.json(result)
   } catch (error) {
     console.error('Game requests fetch error:', error)
     return NextResponse.json([], { status: 500 })

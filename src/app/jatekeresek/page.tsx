@@ -15,6 +15,8 @@ interface GameRequest {
   districts: string[]
   description: string | null
   user: { id: string; nickname: string; city: string; districts: string[] }
+  responseCount: number
+  hasApplied: boolean
 }
 
 export default function GameRequestsPage() {
@@ -22,6 +24,7 @@ export default function GameRequestsPage() {
   const [requests, setRequests] = useState<GameRequest[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
+  const [applyingId, setApplyingId] = useState<string | null>(null)
 
   // Form fields
   const [sport, setSport] = useState('')
@@ -47,6 +50,26 @@ export default function GameRequestsPage() {
   useEffect(() => {
     fetchRequests()
   }, [])
+
+  async function handleApply(requestId: string) {
+    setApplyingId(requestId)
+    try {
+      const res = await fetch(`/api/game-requests/${requestId}/apply`, { method: 'POST' })
+      if (res.ok) {
+        setRequests((prev) =>
+          prev.map((r) =>
+            r.id === requestId
+              ? { ...r, hasApplied: true, responseCount: r.responseCount + 1 }
+              : r
+          )
+        )
+      }
+    } catch {
+      // ignore
+    } finally {
+      setApplyingId(null)
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -208,14 +231,26 @@ export default function GameRequestsPage() {
                   {req.description && (
                     <p className="text-gray-600 text-sm mt-2">{req.description}</p>
                   )}
+                  {req.responseCount > 0 && (
+                    <p className="text-primary-600 text-sm mt-2 font-medium">
+                      {req.responseCount} jelentkező
+                    </p>
+                  )}
                 </div>
                 {session && session.user.id !== req.user.id && (
-                  <Link
-                    href={`/uzenetek/${req.user.id}`}
-                    className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg font-medium transition-colors text-center whitespace-nowrap"
-                  >
-                    Jelentkezem!
-                  </Link>
+                  req.hasApplied ? (
+                    <span className="px-4 py-2 rounded-lg font-medium text-center whitespace-nowrap bg-gray-200 text-gray-500">
+                      Jelentkeztél
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => handleApply(req.id)}
+                      disabled={applyingId === req.id}
+                      className="px-4 py-2 rounded-lg font-medium transition-colors text-center whitespace-nowrap bg-primary-500 hover:bg-primary-600 text-white disabled:opacity-50"
+                    >
+                      {applyingId === req.id ? 'Küldés...' : 'Jelentkezem!'}
+                    </button>
+                  )
                 )}
               </div>
             </div>

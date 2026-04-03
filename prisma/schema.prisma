@@ -54,7 +54,19 @@ model GameRequest {
   description String?
   createdAt   DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  responses GameRequestResponse[]
+}
+
+model GameRequestResponse {
+  id            String   @id @default(cuid())
+  gameRequestId String
+  userId        String
+  createdAt     DateTime @default(now())
+
+  gameRequest GameRequest @relation(fields: [gameRequestId], references: [id], onDelete: Cascade)
+
+  @@unique([gameRequestId, userId])
 }
 
 model Match {
