@@ -28,7 +28,7 @@ export async function GET() {
     // Group by conversation partner
     const conversationMap = new Map<
       string,
-      { partnerId: string; partnerName: string; lastMessage: string; lastDate: Date; unread: number }
+      { partnerId: string; partnerName: string; lastMessage: string; lastSenderId: string; lastDate: Date; unread: number }
     >()
 
     for (const msg of messages) {
@@ -45,6 +45,7 @@ export async function GET() {
           partnerId,
           partnerName,
           lastMessage: msg.content,
+          lastSenderId: msg.senderId,
           lastDate: msg.createdAt,
           unread: unreadCount,
         })

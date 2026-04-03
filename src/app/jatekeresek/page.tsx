@@ -282,7 +282,12 @@ export default function GameRequestsPage() {
                     {formatDate(req.date)}
                   </p>
                   <p className="text-gray-500 text-sm mt-1">
-                    {req.city}{req.districts.length > 0 ? ` (${req.districts.join(', ')})` : ''} &middot; {session ? req.user.nickname : '***'}
+                    {req.city}{req.districts.length > 0 ? ` (${req.districts.join(', ')})` : ''} &middot;{' '}
+                    {session ? (
+                      <Link href={`/jatekosok/${req.user.id}`} className="text-primary-600 hover:underline" onClick={(e) => e.stopPropagation()}>
+                        {req.user.nickname}
+                      </Link>
+                    ) : '***'}
                   </p>
                   {req.description && (
                     <p className="text-gray-600 text-sm mt-2">{req.description}</p>

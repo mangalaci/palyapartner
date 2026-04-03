@@ -9,6 +9,7 @@ interface Conversation {
   partnerId: string
   partnerName: string
   lastMessage: string
+  lastSenderId: string
   lastDate: string
   unread: number
 }
@@ -69,7 +70,8 @@ export default function MessagesPage() {
                       {new Date(conv.lastDate).toLocaleDateString('hu-HU')}
                     </span>
                   </div>
-                  <p className="text-gray-500 text-sm truncate">
+                  <p className={`text-sm truncate ${conv.unread > 0 ? 'text-gray-900 font-medium' : 'text-gray-500'}`}>
+                    {conv.lastSenderId === session?.user?.id && <span className="text-gray-400">Te: </span>}
                     {conv.lastMessage}
                   </p>
                 </div>
