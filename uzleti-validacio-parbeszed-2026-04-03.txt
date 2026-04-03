@@ -1,0 +1,186 @@
+================================================================================
+     PÁLYAPARTNER — PÁRBESZÉD / MUNKANAPLÓ
+     2026-04-03
+================================================================================
+
+Előző napi munkanapló: uzleti-validacio-parbeszed-2026-04-02.txt
+
+
+================================================================================
+1. JÁTÉKKÉRÉSEK — JELENTKEZÉS RENDSZER (GAMERESPONSE)
+================================================================================
+
+PROBLÉMA:
+  - Ha valaki "Jelentkezem" gombot nyomott, nem maradt nyoma, mire
+    jelentkezett (mi volt a játékkérés)
+  - A "Jelentkezem" gomb újra megjelent, ha visszament az oldalra
+  - A feladó nem tudta, hányan jelentkeztek
+
+MEGOLDÁS — GameRequestResponse modell:
+
+  Prisma schema bővítés:
+    model GameRequestResponse {
+      id            String   @id @default(cuid())
+      gameRequestId String
+      userId        String
+      createdAt     DateTime @default(now())
+      gameRequest GameRequest @relation(...)
+      @@unique([gameRequestId, userId])   // dupla jelentkezés megakadályozása
+    }
+
+  Új API endpoint: /api/game-requests/[id]/apply (POST)
+    - Ellenőrzi, hogy nem saját kérésre jelentkezik
+    - Ellenőrzi duplikátumot
+    - Létrehozza a GameRequestResponse rekordot
+    - Automatikus üzenet a feladónak kontextussal:
+      "Szia! Jelentkezem a játékkérésedre: [sport] ([szint])
+       [időpont], [város] ([kerületek])"
+
+  GET /api/game-requests módosítás:
+    - responseCount: hány jelentkező van
+    - hasApplied: az aktuális user jelentkezett-e már
+
+  UI változások (jatekeresek/page.tsx):
+    - "Jelentkezem!" gomb → kattintás után "Jelentkeztél" (szürke, inaktív)
+    - "X jelentkező" szám megjelenik a kártyán
+    - Oldalfrissítés után is megmarad a "Jelentkeztél" állapot
+
+
+================================================================================
+2. JÁTÉKKÉRÉSEK — VÁROS SZŰRŐ AUTOMATIKUSAN
+================================================================================
+
+PROBLÉMA:
+  A játékkérések az összes országos kérést mutatták, ami nem hasznos.
+
+MEGOLDÁS:
+  - Betöltéskor lekéri a user profilját (/api/users/[id])
+  - A filterCity alapértelmezetten a profil város lesz
+  - Azonnal szűrve tölti be a kéréseket
+  - A user továbbra is átírhatja a szűrőt kézzel
+
+
+================================================================================
+3. DESIGN EGYSÉGESÍTÉS AZ ÖSSZES OLDALON
+================================================================================
+
+VÁLTOZÁSOK:
+
+  A) Főoldal (Navbar, SearchSection):
+    - Menüpontok (Játékosok, Meccsek, stb.) szín: #003d1a (sötétzöld)
+    - Legördülő mezők: font-heading (Chilidog PB), smoke-glass stílus
+    - "Mehet!" gomb felirat: #003d1a
+    - "Játékosok a közeledben" cím: #003d1a
+
+  B) Játékosok oldal:
+    - Cím sötétzöld
+    - Legördülők: border-white/40, bg-black/40, font-heading
+    - "Keresés" gomb → "Mehet!" gomb (sárga, #003d1a felirat)
+
+  C) Meccsek oldal:
+    - Ugyanaz: sötétzöld cím, smoke-glass legördülők, Mehet! gomb
+    - Auto-szűrő javítva: nem fut újra filterváltásnál (végtelen kör elkerülése)
+
+  D) Játékkérések oldal:
+    - Sötétzöld cím, smoke-glass legördülők, Mehet! gomb
+    - Konzisztens a többi oldallal
+
+  E) Meccseim, Üzenetek, Profilom:
+    - Összes főcím: style={{ color: '#003d1a' }}
+    - Profilom: alcímek is sötétzöld (Statisztikáim, Profilkép, Profil szerkesztése)
+
+DESIGN SÉMA ÖSSZEFOGLALÓ:
+  - Címek: #003d1a (sötétzöld)
+  - Legördülők: border-white/40, bg-black/40, text-white, font-heading
+  - Szűrő gombok: bg-yellow-400, font-heading, text-xl, color: #003d1a
+  - Mezők: placeholder:text-gray-500
+
+
+================================================================================
+4. ÜZENETEK FEJLESZTÉSEK
+================================================================================
+
+  A) Beszélgetés lista (uzenetek/page.tsx):
+    - "Te:" prefix, ha az utolsó üzenetet mi küldtük
+    - Olvasatlan üzenetek félkövér kiemeléssel
+    - lastSenderId hozzáadva az API válaszhoz
+
+  B) Chat felület (uzenetek/[id]/page.tsx):
+    - Beviteli mező sötétzöld háttérrel: backgroundColor: '#003d1a'
+    - Eltávolítva a korábbi automatikus üzenetküldés (searchParams alapú)
+
+  C) Játékos nevek kattinthatók:
+    - Játékkérés kártyákon a felhasználó neve Link a profiljára
+    - /jatekosok/[id] oldalra vezet
+
+
+================================================================================
+5. GOOGLE PLAY TWA — BUBBLEWRAP CLI PRÓBA
+================================================================================
+
+ELŐZMÉNY:
+  PWABuilder (böngészős) kétszer timeout-olt (előző nap is).
+
+TELEPÍTÉSEK:
+  - OpenJDK 25 telepítve (MSI installer, JAVA_HOME beállítva)
+  - @bubblewrap/cli telepítve (npm global)
+
+BUBBLEWRAP INIT:
+  - Sikeres init, twa-manifest.json + Android projekt generálva
+  - Package ID: hu.palyapartner.twa
+  - Host: palyapartner.hu
+  - Shortcuts: Játékosok, Meccsek
+  - enableNotifications: true
+  - compileSdkVersion: 36, targetSdkVersion: 35
+
+BUBBLEWRAP BUILD — PROBLÉMÁK:
+
+  1. JDK 25 nem támogatott → Bubblewrap saját JDK 17-et töltött le
+  2. Gradle heap hiba: "Could not reserve enough space for 1572864KB"
+     → Megoldás: gradle.properties → org.gradle.jvmargs=-Xmx512m
+  3. android.useAndroidX=true nem érvényesül:
+     - A gradle.properties fájl UTF-16 kódolásban volt (Windows echo parancs)
+     - Gradle nem tudja olvasni az UTF-16 gradle.properties-t
+     → Megoldás: UTF-8-ban újraírva a fájlt
+
+STÁTUSZ:
+  A gradle.properties most már UTF-8 kódolású, a build újrafuttatásra vár.
+
+GENERÁLT FÁJLOK A PROJEKT GYÖKERÉBEN:
+  - build.gradle, app/build.gradle — Android Gradle konfiguráció
+  - settings.gradle — include ':app'
+  - gradle.properties — JVM args + AndroidX
+  - twa-manifest.json — Bubblewrap konfiguráció
+  - gradlew, gradlew.bat — Gradle wrapper
+  - app/ könyvtár — Android projekt
+
+
+================================================================================
+6. TOVÁBBI TERVEK (MEGBESZÉLVE, NEM ELKEZDVE)
+================================================================================
+
+  - Admin felület (Laci kérte, hogy kerüljön az agendára)
+  - Push értesítések
+  - Soft launch tervezés
+
+
+================================================================================
+7. AKTUÁLIS STÁTUSZ
+================================================================================
+
+KÉSZ:
+  ✓ GameRequestResponse rendszer (apply + üzenet kontextussal)
+  ✓ Játékkérések város auto-szűrő
+  ✓ Design egységesítés (összes oldal)
+  ✓ Üzenetek fejlesztések (Te: prefix, unread, sötétzöld input)
+  ✓ Kattintható játékos nevek a játékkéréseknél
+
+FOLYAMATBAN:
+  ⏳ TWA build (gradle.properties UTF-8 javítás után újra kell futtatni)
+
+KÖVETKEZŐ LÉPÉSEK:
+  1. bubblewrap build újrafuttatás
+  2. APK/AAB feltöltése a Google Play Console-ra
+  3. Admin felület tervezés és fejlesztés
+  4. Push értesítések
+  5. Soft launch — valós felhasználók szerzése
