@@ -1,12 +1,31 @@
 {
   "name": "PályaPartner",
   "short_name": "PályaPartner",
-  "description": "Találd meg a tökéletes sportpartnered",
+  "description": "Találd meg a tökéletes sportpartnered! Ingyenes sportpartner kereső alkalmazás teniszhez, focihoz, padelhez és más sportágakhoz.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0a5c2f",
   "theme_color": "#00A651",
   "orientation": "portrait",
+  "lang": "hu",
+  "dir": "ltr",
+  "id": "/",
+  "categories": ["sports", "social"],
+  "shortcuts": [
+    {
+      "name": "Játékosok",
+      "short_name": "Játékosok",
+      "url": "/jatekosok",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Meccsek",
+      "short_name": "Meccsek",
+      "url": "/meccsek",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
   "icons": [
     {
       "src": "/icons/icon-192.png",
