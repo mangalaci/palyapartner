@@ -37,19 +37,22 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-5 font-heading">
             <Link
               href="/jatekosok"
-              className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+              className="font-medium text-sm transition-colors hover:text-white"
+              style={{ color: '#003d1a' }}
             >
               Játékosok
             </Link>
             <Link
               href="/meccsek"
-              className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+              className="font-medium text-sm transition-colors hover:text-white"
+              style={{ color: '#003d1a' }}
             >
               Meccsek
             </Link>
             <Link
               href="/jatekeresek"
-              className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+              className="font-medium text-sm transition-colors hover:text-white"
+              style={{ color: '#003d1a' }}
             >
               Játékkérések
             </Link>
@@ -57,13 +60,15 @@ export default function Navbar() {
               <>
                 <Link
                   href="/meccseim"
-                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+                  className="font-medium text-sm transition-colors hover:text-white"
+                  style={{ color: '#003d1a' }}
                 >
                   Meccseim
                 </Link>
                 <Link
                   href="/uzenetek"
-                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors relative"
+                  className="font-medium text-sm transition-colors hover:text-white relative"
+                  style={{ color: '#003d1a' }}
                 >
                   Üzenetek
                   {unreadCount > 0 && (
@@ -74,13 +79,15 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/profil"
-                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+                  className="font-medium text-sm transition-colors hover:text-white"
+                  style={{ color: '#003d1a' }}
                 >
                   Profilom
                 </Link>
                 <button
                   onClick={() => signOut()}
-                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+                  className="font-medium text-sm transition-colors hover:text-white"
+                  style={{ color: '#003d1a' }}
                 >
                   Kijelentkezés
                 </button>
@@ -89,7 +96,8 @@ export default function Navbar() {
               <>
                 <Link
                   href="/bejelentkezes"
-                  className="text-gray-200 hover:text-white font-medium text-sm transition-colors"
+                  className="font-medium text-sm transition-colors hover:text-white"
+                  style={{ color: '#003d1a' }}
                 >
                   Bejelentkezés
                 </Link>
@@ -126,21 +134,21 @@ export default function Navbar() {
         {/* Mobile menu */}
         {menuOpen && (
           <div className="md:hidden pb-3 space-y-1 font-heading">
-            <Link href="/jatekosok" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+            <Link href="/jatekosok" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
               Játékosok
             </Link>
-            <Link href="/meccsek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+            <Link href="/meccsek" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
               Meccsek
             </Link>
-            <Link href="/jatekeresek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+            <Link href="/jatekeresek" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
               Játékkérések
             </Link>
             {session ? (
               <>
-                <Link href="/meccseim" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+                <Link href="/meccseim" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
                   Meccseim
                 </Link>
-                <Link href="/uzenetek" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+                <Link href="/uzenetek" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
                   Üzenetek
                   {unreadCount > 0 && (
                     <span className="ml-2 inline-flex items-center justify-center bg-red-500 text-white text-xs font-bold rounded-full h-5 min-w-5 px-1">
@@ -148,16 +156,16 @@ export default function Navbar() {
                     </span>
                   )}
                 </Link>
-                <Link href="/profil" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+                <Link href="/profil" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
                   Profilom
                 </Link>
-                <button onClick={() => { signOut(); setMenuOpen(false) }} className="block py-2 text-gray-200 hover:text-white font-medium text-sm">
+                <button onClick={() => { signOut(); setMenuOpen(false) }} className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }}>
                   Kijelentkezés
                 </button>
               </>
             ) : (
               <>
-                <Link href="/bejelentkezes" className="block py-2 text-gray-200 hover:text-white font-medium text-sm" onClick={() => setMenuOpen(false)}>
+                <Link href="/bejelentkezes" className="block py-2 font-medium text-sm hover:text-white" style={{ color: '#003d1a' }} onClick={() => setMenuOpen(false)}>
                   Bejelentkezés
                 </Link>
                 <Link href="/regisztracio" className="block py-2 bg-primary-500 text-white text-center rounded-lg font-medium text-sm" onClick={() => setMenuOpen(false)}>

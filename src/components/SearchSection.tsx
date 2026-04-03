@@ -64,7 +64,7 @@ export default function SearchSection() {
                 setCity(e.target.value)
                 if (e.target.value !== 'Budapest') setDistrict('')
               }}
-              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white"
+              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
             >
               <option value="" className="bg-field-dark text-white">Minden város</option>
               {CITIES.map((c) => (
@@ -77,7 +77,7 @@ export default function SearchSection() {
               <select
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white"
+                className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
               >
                 <option value="" className="bg-field-dark text-white">Minden kerület</option>
                 {BUDAPEST_DISTRICTS.map((d) => (
@@ -90,7 +90,7 @@ export default function SearchSection() {
             <select
               value={sport}
               onChange={(e) => setSport(e.target.value)}
-              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white"
+              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
             >
               <option value="" className="bg-field-dark text-white">Minden sport</option>
               {SPORTS.map((s) => (
@@ -102,7 +102,7 @@ export default function SearchSection() {
             <select
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white"
+              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
             >
               <option value="" className="bg-field-dark text-white">Minden szint</option>
               {LEVELS.map((l) => (
@@ -113,7 +113,8 @@ export default function SearchSection() {
             </select>
             <button
               type="submit"
-              className="bg-yellow-400 hover:bg-yellow-300 text-field-dark px-8 py-3 rounded-lg font-heading text-xl transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+              className="bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg font-heading text-xl transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+              style={{ color: '#003d1a' }}
             >
               Mehet!
             </button>
@@ -124,8 +125,8 @@ export default function SearchSection() {
       {/* Results */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-            <svg className="w-7 h-7 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <h2 className="text-2xl font-bold flex items-center gap-2" style={{ color: '#003d1a' }}>
+            <svg className="w-7 h-7" style={{ color: '#003d1a' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             Játékosok a közeledben
