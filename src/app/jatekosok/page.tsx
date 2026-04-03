@@ -87,7 +87,7 @@ export default function PlayersPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-400">Betöltés...</div>
+        <div className="text-center py-12 text-gray-300">Betöltés...</div>
       ) : players.length > 0 ? (
         <>
           <p className="text-primary-400 font-medium mb-4">{players.length} találat</p>
@@ -108,7 +108,7 @@ export default function PlayersPage() {
           </div>
         </>
       ) : (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-gray-300">
           Nem találtunk játékost.
         </div>
       )}

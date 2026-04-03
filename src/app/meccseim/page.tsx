@@ -77,7 +77,7 @@ export default function MyMatchesPage() {
   }
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-400">Betöltés...</div>
+    return <div className="text-center py-12 text-gray-300">Betöltés...</div>
   }
 
   const tabs = [
@@ -168,7 +168,7 @@ export default function MyMatchesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-gray-300">
           {activeTab === 'upcoming' && 'Nincs következő meccses. Nézd meg a nyitott meccseket!'}
           {activeTab === 'waitlisted' && 'Nincs várólistás meccses.'}
           {activeTab === 'past' && 'Még nem voltál meccsen.'}

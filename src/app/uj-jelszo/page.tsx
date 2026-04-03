@@ -133,7 +133,7 @@ export default function ResetPasswordPage() {
     <div className="max-w-md mx-auto px-4 py-12">
       <Suspense
         fallback={
-          <div className="text-center py-12 text-gray-400">Betöltés...</div>
+          <div className="text-center py-12 text-gray-300">Betöltés...</div>
         }
       >
         <ResetPasswordForm />

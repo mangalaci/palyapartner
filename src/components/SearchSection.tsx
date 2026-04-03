@@ -113,7 +113,7 @@ export default function SearchSection() {
             </select>
             <button
               type="submit"
-              className="bg-yellow-400 hover:bg-yellow-300 text-field-dark px-8 py-3 rounded-lg font-heading text-lg transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
+              className="bg-yellow-400 hover:bg-yellow-300 text-field-dark px-8 py-3 rounded-lg font-heading text-xl transition-colors flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
             >
               Mehet!
             </button>
@@ -138,7 +138,7 @@ export default function SearchSection() {
         </div>
 
         {loading ? (
-          <div className="text-center py-12 text-gray-400">Keresés...</div>
+          <div className="text-center py-12 text-gray-300">Keresés...</div>
         ) : players.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {players.map((player) => (
@@ -156,7 +156,7 @@ export default function SearchSection() {
             ))}
           </div>
         ) : searched ? (
-          <div className="text-center py-12 text-gray-400">
+          <div className="text-center py-12 text-gray-300">
             Nem találtunk játékost a megadott szűrőkkel.
           </div>
         ) : null}

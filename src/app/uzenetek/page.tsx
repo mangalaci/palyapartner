@@ -83,7 +83,7 @@ export default function MessagesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-gray-300">
           Még nincsenek üzeneteid. Keress játékosokat és küldj üzenetet!
         </div>
       )}

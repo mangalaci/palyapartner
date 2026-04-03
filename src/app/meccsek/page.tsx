@@ -333,7 +333,7 @@ export default function MatchesPage() {
 
       {/* Meccsek lista */}
       {loading ? (
-        <div className="text-center py-12 text-gray-400">Betöltés...</div>
+        <div className="text-center py-12 text-gray-300">Betöltés...</div>
       ) : matches.length > 0 ? (
         <div className="space-y-4">
           {matches.map((match) => (
@@ -367,7 +367,7 @@ export default function MatchesPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-gray-300">
           Jelenleg nincsenek nyitott meccsek. Szervezz egyet!
         </div>
       )}

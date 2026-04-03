@@ -92,11 +92,11 @@ export default function MatchDetailPage() {
   }
 
   if (loading) {
-    return <div className="text-center py-12 text-gray-400">Betöltés...</div>
+    return <div className="text-center py-12 text-gray-300">Betöltés...</div>
   }
 
   if (!match) {
-    return <div className="text-center py-12 text-gray-400">Meccs nem található.</div>
+    return <div className="text-center py-12 text-gray-300">Meccs nem található.</div>
   }
 
   const players = match.participants.filter(p => p.type === 'player')

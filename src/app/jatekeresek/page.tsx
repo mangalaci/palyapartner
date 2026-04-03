@@ -181,7 +181,7 @@ export default function GameRequestsPage() {
 
       {/* Game requests list */}
       {loading ? (
-        <div className="text-center py-12 text-gray-400">Betöltés...</div>
+        <div className="text-center py-12 text-gray-300">Betöltés...</div>
       ) : requests.length > 0 ? (
         <div className="space-y-4">
           {requests.map((req) => (
@@ -222,7 +222,7 @@ export default function GameRequestsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-400">
+        <div className="text-center py-12 text-gray-300">
           Jelenleg nincsenek nyitott játékkérések.
         </div>
       )}
