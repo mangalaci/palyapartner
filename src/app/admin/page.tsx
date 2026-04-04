@@ -94,8 +94,8 @@ export default function AdminPage() {
       }
       setData({
         stats: { ...stats, totalUsers: stats.totalUsers - 1 },
-        usersByCity: data.usersByCity,
-        usersBySport: data.usersBySport,
+        usersByCity,
+        usersBySport,
         recentUsers: recentUsers.filter((u) => u.id !== userId),
       })
     } catch {
