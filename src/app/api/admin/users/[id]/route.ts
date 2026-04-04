@@ -9,14 +9,14 @@ const ADMIN_EMAILS = [
 
 export async function DELETE(
   _req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions)
   if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = await params
+  const { id } = params
 
   const user = await prisma.user.findUnique({ where: { id }, select: { email: true } })
   if (!user) {
