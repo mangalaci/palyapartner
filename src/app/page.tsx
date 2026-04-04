@@ -31,7 +31,7 @@ export default function Home() {
           <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto font-heading">
             Legyen szó teniszről, fociról vagy futásról, találd meg a társad, a csapatod!
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/regisztracio"
               className="bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-lg font-heading font-medium transition-colors shadow-lg hover:shadow-xl"
@@ -46,9 +46,6 @@ export default function Home() {
               Bejelentkezés
             </Link>
           </div>
-
-          {/* Social share */}
-          <SocialShareButtons />
         </div>
       </section>
 
