@@ -47,17 +47,20 @@ interface AdminData {
   recentUsers: RecentUser[]
 }
 
-const ADMIN_EMAIL = 'laszlo.virtualtryon@gmail.com'
+const ADMIN_EMAILS = [
+  'laszlo.virtualtryon@gmail.com',
+]
 
 export default function AdminPage() {
   const { data: session, status } = useSession()
   const [data, setData] = useState<AdminData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [deleting, setDeleting] = useState<string | null>(null)
 
   useEffect(() => {
     if (status === 'loading') return
-    if (!session?.user?.email || session.user.email !== ADMIN_EMAIL) {
+    if (!session?.user?.email || !ADMIN_EMAILS.includes(session.user.email)) {
       setLoading(false)
       setError('Nincs jogosultságod.')
       return
@@ -74,10 +77,32 @@ export default function AdminPage() {
   }, [session, status])
 
   if (loading) return <div className="p-8 text-center text-gray-300">Betöltés...</div>
-  if (error) return <div className="p-8 text-center text-red-400">{error}</div>
+  if (error) return <div className="p-8 text-center text-red-400 text-2xl font-bold">{error}</div>
   if (!data) return null
 
   const { stats, usersByCity, usersBySport, recentUsers } = data
+
+  async function handleDelete(userId: string, nickname: string) {
+    if (!confirm(`Biztosan törölni akarod "${nickname}" felhasználót?`)) return
+    setDeleting(userId)
+    try {
+      const res = await fetch(`/api/admin/users/${userId}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const body = await res.json()
+        alert(body.error || 'Hiba történt')
+        return
+      }
+      setData({
+        ...data,
+        stats: { ...stats, totalUsers: stats.totalUsers - 1 },
+        recentUsers: recentUsers.filter((u) => u.id !== userId),
+      })
+    } catch {
+      alert('Hiba történt')
+    } finally {
+      setDeleting(null)
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -155,6 +180,7 @@ export default function AdminPage() {
                 <th className="pb-3 text-gray-400 font-medium text-center">Verifikált</th>
                 <th className="pb-3 text-gray-400 font-medium text-center">Üzenetek</th>
                 <th className="pb-3 text-gray-400 font-medium">Regisztrált</th>
+                <th className="pb-3 text-gray-400 font-medium text-center">Művelet</th>
               </tr>
             </thead>
             <tbody>
@@ -186,6 +212,19 @@ export default function AdminPage() {
                   </td>
                   <td className="py-3 text-gray-400 text-xs">
                     {new Date(user.createdAt).toLocaleDateString('hu-HU')}
+                  </td>
+                  <td className="py-3 text-center">
+                    {ADMIN_EMAILS.includes(user.email) ? (
+                      <span className="text-gray-500 text-xs">admin</span>
+                    ) : (
+                      <button
+                        onClick={() => handleDelete(user.id, user.nickname)}
+                        disabled={deleting === user.id}
+                        className="text-red-400 hover:text-red-300 text-xs font-medium disabled:opacity-50"
+                      >
+                        {deleting === user.id ? 'Törlés...' : 'Törlés'}
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
