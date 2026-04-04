@@ -1,7 +1,8 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import SearchSection from '@/components/SearchSection'
-import SocialShareButtons from '@/components/SocialShareButtons'
+import HeroButtons from '@/components/HeroButtons'
+import BottomCTA from '@/components/BottomCTA'
+import JoinButton from '@/components/JoinButton'
 
 export default function Home() {
   return (
@@ -31,21 +32,7 @@ export default function Home() {
           <p className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto font-heading">
             Legyen szó teniszről, fociról vagy futásról, találd meg a társad, a csapatod!
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/regisztracio"
-              className="bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-lg font-heading font-medium transition-colors shadow-lg hover:shadow-xl"
-              style={{ color: '#003d1a' }}
-            >
-              Ingyenes regisztráció
-            </Link>
-            <Link
-              href="/bejelentkezes"
-              className="border-2 border-white/40 hover:border-white/70 text-white px-8 py-3 rounded-lg text-lg font-heading font-medium transition-colors"
-            >
-              Bejelentkezés
-            </Link>
-          </div>
+          <HeroButtons />
         </div>
       </section>
 
@@ -122,14 +109,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center mt-12">
-          <Link
-            href="/regisztracio"
-            className="bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-lg text-lg font-medium transition-colors inline-block"
-          >
-            Csatlakozz most!
-          </Link>
-        </div>
+        <JoinButton />
       </section>
 
       {/* Sportágak */}
@@ -168,26 +148,7 @@ export default function Home() {
       </section>
 
       {/* Bottom CTA + Share */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <h2 className="text-3xl font-bold text-white mb-4">
-          Készen állsz?
-        </h2>
-        <p className="text-gray-300 mb-8 max-w-xl mx-auto">
-          Regisztrálj most és találd meg a következő sportpartnered még ma!
-        </p>
-        <Link
-          href="/regisztracio"
-          className="bg-yellow-400 hover:bg-yellow-300 px-8 py-3 rounded-lg text-lg font-heading font-medium transition-colors shadow-lg hover:shadow-xl inline-block mb-8"
-          style={{ color: '#003d1a' }}
-        >
-          Ingyenes regisztráció
-        </Link>
-
-        <div className="border-t border-white/10 pt-8">
-          <p className="text-gray-400 mb-4">Oszd meg ismerőseiddel!</p>
-          <SocialShareButtons />
-        </div>
-      </section>
+      <BottomCTA />
     </>
   )
 }

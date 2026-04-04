@@ -64,7 +64,7 @@ export default function SearchSection() {
                 setCity(e.target.value)
                 if (e.target.value !== 'Budapest') setDistrict('')
               }}
-              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
+              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading text-base"
             >
               <option value="" className="bg-field-dark text-white">Minden város</option>
               {CITIES.map((c) => (
@@ -77,7 +77,7 @@ export default function SearchSection() {
               <select
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
+                className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading text-base"
               >
                 <option value="" className="bg-field-dark text-white">Minden kerület</option>
                 {BUDAPEST_DISTRICTS.map((d) => (
@@ -90,7 +90,7 @@ export default function SearchSection() {
             <select
               value={sport}
               onChange={(e) => setSport(e.target.value)}
-              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
+              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading text-base"
             >
               <option value="" className="bg-field-dark text-white">Minden sport</option>
               {SPORTS.map((s) => (
@@ -102,7 +102,7 @@ export default function SearchSection() {
             <select
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading"
+              className="flex-1 px-4 py-3 border border-white/40 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none bg-black/40 text-white font-heading text-base"
             >
               <option value="" className="bg-field-dark text-white">Minden szint</option>
               {LEVELS.map((l) => (
