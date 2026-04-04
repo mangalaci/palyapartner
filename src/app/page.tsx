@@ -49,6 +49,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Search Section */}
+      <SearchSection />
+
       {/* Miért PályaPartner? */}
       <section className="bg-field-dark/50 border-t border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -83,9 +86,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Search Section */}
-      <SearchSection />
 
       {/* How it works */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
